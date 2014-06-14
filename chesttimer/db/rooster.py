@@ -31,21 +31,51 @@ from enum import Enum
 class Character(UserDict):
     """Single character information."""
 
-    Professions = Enum('Professions', 'engineer necromancer thief '
-                       'elementalist warrior ranger mesmer guardian')
+    class Professions(Enum):
+        """Each profession a character can be."""
+        engineer = 0
+        necromancer = 1
+        thief = 2
+        elementalist = 3
+        warrior = 4
+        ranger = 5
+        mesmer = 6
+        guardian = 7
 
-    Disciplines = Enum('Disciplines', 'armorsmith artificer chef huntsman '
-                       'jeweler leatherworker tailor weaponsmith')
+    class Races(Enum):
+        """Each race."""
+        asura = 0
+        sylvari = 1
+        human = 2
+        norn = 3
+        charr = 4
 
-    Orders = Enum('Orders', 'whispers priory vigil')
+    class Disciplines(Enum):
+        """Crafting disciplines"""
+        armorsmith = 0
+        artificer = 1
+        chef = 2
+        huntsman = 3
+        jeweler = 4
+        leatherworker = 5
+        tailor = 6
+        weaponsmith = 7
 
-    def __init__(self, name, level, profession, disciplines, order):
+    class Orders(Enum):
+        """Each of the orders the character be can aligned to."""
+        order_of_whispers = 0
+        durmand_priori = 1
+        vigil = 2
+
+    def __init__(self, name, level, race, profession, disciplines, order):
         """Create a character
 
         :param name: character name
         :type name: str
         :param level: character level
         :type level: int
+        :param race: character race
+        :type race: :py:class:`Races`
         :param profession: character profession
         :type profession: :py:class:`Professions`
         :param disciplines: crafting disciplines and levels
@@ -53,17 +83,19 @@ class Character(UserDict):
                            value
         :param order: character order
         :type order: :py:class:`Orders`"""
-        super(Character, self).__init__()
-        self['name'] = name
-        self['level'] = level
-        self['profession'] = profession
-        self['disciplines'] = disciplines
-        self['order'] = order
+        self.data = {}
+        self.data['name'] = name
+        self.data['level'] = level
+        self.data['race'] = race
+        self.data['profession'] = profession
+        self.data['disciplines'] = disciplines
+        self.data['order'] = order
 
     @classmethod
     def from_dict(self, data):
         return Character(data['name'],
                          data['level'],
+                         data['race'],
                          data['profession'],
                          data['disciplines'],
                          data['order'])
@@ -88,7 +120,7 @@ class Rooster(UserList):
         """Save the current rooster list in the disk."""
         filename = os.path.join(path, 'rooster.json')
         with file(filename, 'w') as content:
-            json.dumps(content)
+            json.dump(self.data, content)
         return
 
     def add(self, character):
