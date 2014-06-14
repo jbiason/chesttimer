@@ -20,9 +20,11 @@
 
 import os
 import json
+from UserList import UserList
+from UserDict import UserDict
 
 
-class Character(dict):
+class Character(UserDict):
     """Single character information."""
 
     def __init__(self, name, level, profession, discipline, discipline_level,
@@ -45,16 +47,29 @@ class Character(dict):
                          data['order'])
 
 
-class Rooster(object):
+class Rooster(UserList):
     """List of characters."""
 
     def __init__(self):
-        self.rooster = []
+        self.data = []
+        return
 
     def load(self, path):
+        """Load the list of characters from the storage."""
         filename = os.path.join(path, 'rooster.json')
-        for record in json.load(file(filename)):
-            self.rooster.append(Character.from_dict(record))
+        with file(filename, 'r') as content:
+            for record in json.loads(content):
+                self.data.append(Character.from_dict(record))
+        return
 
     def save(self, path):
+        """Save the current rooster list in the disk."""
         filename = os.path.join(path, 'rooster.json')
+        with file(filename, 'w') as content:
+            json.dumps(content)
+        return
+
+    def add(self, character):
+        """Add a new character to the list."""
+        self.data.append(character)
+        return
