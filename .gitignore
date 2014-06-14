@@ -54,3 +54,6 @@ docs/_build/
 
 # project settings
 .venv
+
+# Vim
+*.sw?
