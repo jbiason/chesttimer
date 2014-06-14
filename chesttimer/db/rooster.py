@@ -20,21 +20,44 @@
 
 import os
 import json
+
 from UserList import UserList
+
 from UserDict import UserDict
+
+from enum import Enum
 
 
 class Character(UserDict):
     """Single character information."""
 
-    def __init__(self, name, level, profession, discipline, discipline_level,
-                 order):
+    Professions = Enum('Professions', 'engineer necromancer thief '
+                       'elementalist warrior ranger mesmer guardian')
+
+    Disciplines = Enum('Disciplines', 'armorsmith artificer chef huntsman '
+                       'jeweler leatherworker tailor weaponsmith')
+
+    Orders = Enum('Orders', 'whispers priory vigil')
+
+    def __init__(self, name, level, profession, disciplines, order):
+        """Create a character
+
+        :param name: character name
+        :type name: str
+        :param level: character level
+        :type level: int
+        :param profession: character profession
+        :type profession: :py:class:`Professions`
+        :param disciplines: crafting disciplines and levels
+        :type disciplines: dict, :py:class:`Disciplines` as key, level as
+                           value
+        :param order: character order
+        :type order: :py:class:`Orders`"""
         super(Character, self).__init__()
         self['name'] = name
         self['level'] = level
         self['profession'] = profession
-        self['discipline'] = discipline
-        self['discipline_level'] = discipline_level
+        self['disciplines'] = disciplines
         self['order'] = order
 
     @classmethod
@@ -42,8 +65,7 @@ class Character(UserDict):
         return Character(data['name'],
                          data['level'],
                          data['profession'],
-                         data['discipline'],
-                         data['discipline_level'],
+                         data['disciplines'],
                          data['order'])
 
 
