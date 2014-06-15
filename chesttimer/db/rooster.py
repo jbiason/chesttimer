@@ -115,21 +115,27 @@ class Character(object):
 class Rooster(UserList):
     """List of characters."""
 
-    def __init__(self):
+    def __init__(self, path=None):
         self.data = []
+        self.path = path
+        self.load()
         return
 
-    def load(self, path):
+    def load(self):
         """Load the list of characters from the storage."""
-        filename = os.path.join(path, 'rooster.json')
+        filename = os.path.join(self.path, 'rooster.json')
+        if not os.path.isfile(filename):
+            # first run?
+            return
+
         with file(filename, 'r') as content:
-            for record in json.loads(content):
+            for record in json.load(content):
                 self.data.append(Character.from_dict(record))
         return
 
-    def save(self, path):
+    def save(self):
         """Save the current rooster list in the disk."""
-        filename = os.path.join(path, 'rooster.json')
+        filename = os.path.join(self.path, 'rooster.json')
         result = []
         for char in self.data:
             result.append(char.json)
