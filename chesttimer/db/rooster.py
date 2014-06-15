@@ -92,10 +92,10 @@ class Character(object):
     def from_dict(self, data):
         return Character(data['name'],
                          data['level'],
-                         data['race'],
-                         data['profession'],
+                         Character.Races(data['race']),
+                         Character.Professions(data['profession']),
                          data['disciplines'],
-                         data['order'])
+                         Character.Orders(data['order']))
 
     @property
     def json(self):
