@@ -11,6 +11,8 @@ from chesttimer.db.rooster import Character
 
 
 class RoosterTest(unittest.TestCase):
+    DB = './rooster.json'
+
     def setUp(self):
         super(RoosterTest, self).setUp()
         self._kill_db()
@@ -27,7 +29,7 @@ class RoosterTest(unittest.TestCase):
                          Character.Races.charr,
                          Character.Professions.guardian,
                          {}, None)
-        rooster = Rooster('.')
+        rooster = Rooster(self.DB)
         rooster.add(char)
         self.assertEqual(len(rooster), 1)
         return
@@ -40,14 +42,14 @@ class RoosterTest(unittest.TestCase):
                          {Character.Disciplines.armorsmith: 500,
                           Character.Disciplines.weaponsmith: 415},
                          Character.Orders.durmand_priori)
-        rooster = Rooster('.')
+        rooster = Rooster(self.DB)
         rooster.add(char)
 
         rooster.save()
-        self.assertTrue(os.path.isfile('./rooster.json'))
+        self.assertTrue(os.path.isfile(self.DB))
 
         # try to load it back
-        new_rooster = Rooster('.')
+        new_rooster = Rooster(self.DB)
 
         self.assertEqual(len(new_rooster), 1)
         self.assertEqual(new_rooster[0].name, 'test')
@@ -55,8 +57,8 @@ class RoosterTest(unittest.TestCase):
 
     def _kill_db(self):
         """Destroy the database."""
-        if os.path.isfile('./rooster.json'):
-            os.remove('./rooster.json')
+        if os.path.isfile(self.DB):
+            os.remove(self.DB)
         return
 
 if __name__ == '__main__':
