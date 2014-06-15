@@ -94,7 +94,9 @@ class Character(object):
                          data['level'],
                          Character.Races(data['race']),
                          Character.Professions(data['profession']),
-                         data['disciplines'],
+                         dict([(Character.Disciplines(disc), level)
+                               for (disc, level) in
+                               data['disciplines'].iteritems()]),
                          Character.Orders(data['order']))
 
     @property
@@ -105,7 +107,8 @@ class Character(object):
             'race': self.race.value if self.race else None,
             'profession': self.profession.value if self.profession else None,
             'order': self.order.value if self.order else None,
-            'disciplines': {}
+            'disciplines': dict([(disc.value, level) for (disc, level) in
+                                 self.disciplines.iteritems()])
         }
 
 
