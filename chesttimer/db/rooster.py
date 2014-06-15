@@ -23,12 +23,10 @@ import json
 
 from UserList import UserList
 
-from UserDict import UserDict
-
 from enum import Enum
 
 
-class Character(UserDict):
+class Character(object):
     """Single character information."""
 
     class Professions(Enum):
@@ -83,13 +81,12 @@ class Character(UserDict):
                            value
         :param order: character order
         :type order: :py:class:`Orders`"""
-        self.data = {}
-        self.data['name'] = name
-        self.data['level'] = level
-        self.data['race'] = race
-        self.data['profession'] = profession
-        self.data['disciplines'] = disciplines
-        self.data['order'] = order
+        self.name = name
+        self.level = level
+        self.race = race
+        self.profession = profession
+        self.disciplines = disciplines
+        self.order = order
 
     @classmethod
     def from_dict(self, data):
@@ -99,6 +96,17 @@ class Character(UserDict):
                          data['profession'],
                          data['disciplines'],
                          data['order'])
+
+    @property
+    def json(self):
+        return {
+            'name': self.name,
+            'level': self.level,
+            'race': self.race.value if self.race else None,
+            'profession': self.profession.value if self.profession else None,
+            'order': self.order.value if self.order else None,
+            'disciplines': {}
+        }
 
 
 class Rooster(UserList):
@@ -119,8 +127,11 @@ class Rooster(UserList):
     def save(self, path):
         """Save the current rooster list in the disk."""
         filename = os.path.join(path, 'rooster.json')
+        result = []
+        for char in self.data:
+            result.append(char.json)
         with file(filename, 'w') as content:
-            json.dump(self.data, content)
+            json.dump(result, content)
         return
 
     def add(self, character):
