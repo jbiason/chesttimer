@@ -31,39 +31,39 @@ class Character(object):
 
     class Professions(Enum):
         """Each profession a character can be."""
-        engineer = 0
-        necromancer = 1
-        thief = 2
-        elementalist = 3
-        warrior = 4
-        ranger = 5
-        mesmer = 6
-        guardian = 7
+        engineer = 'Engineer'
+        necromancer = 'Necromancer'
+        thief = 'Thief'
+        elementalist = 'Elementalist'
+        warrior = 'Warrior'
+        ranger = 'Ranger'
+        mesmer = 'Mesmer'
+        guardian = 'Guardian'
 
     class Races(Enum):
         """Each race."""
-        asura = 0
-        sylvari = 1
-        human = 2
-        norn = 3
-        charr = 4
+        asura = 'Asura'
+        sylvari = 'Sylvari'
+        human = 'Human'
+        norn = 'Norn'
+        charr = 'Charr'
 
     class Disciplines(Enum):
         """Crafting disciplines"""
-        armorsmith = 0
-        artificer = 1
-        chef = 2
-        huntsman = 3
-        jeweler = 4
-        leatherworker = 5
-        tailor = 6
-        weaponsmith = 7
+        armorsmith = 'Armorsmith'
+        artificer = 'Artificer'
+        chef = 'Chef'
+        huntsman = 'Huntsman'
+        jeweler = 'Jeweler'
+        leatherworker = 'Leatherworker'
+        tailor = 'Tailor'
+        weaponsmith = 'Weaponsmith'
 
     class Orders(Enum):
         """Each of the orders the character be can aligned to."""
-        order_of_whispers = 0
-        durmand_priori = 1
-        vigil = 2
+        order_of_whispers = 'Order of Whispers'
+        durmand_priori = 'Durmand Priori'
+        vigil = 'Vigil'
 
     def __init__(self, name, level, race, profession, disciplines, order):
         """Create a character
