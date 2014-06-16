@@ -19,6 +19,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from flask import Flask
+from flask import render_template
 
 from .settings import Settings
 
@@ -28,3 +29,9 @@ from .settings import Settings
 app = Flask(__name__)
 app.config.from_object(Settings)
 app.config.from_envvar('CHESTTIMER_CONFIG', True)
+
+
+# this is temporary
+@app.route('/')
+def index():
+    return render_template('index.html')

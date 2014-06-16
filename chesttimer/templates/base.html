@@ -12,19 +12,32 @@
 	</head>
 
 	<body>
-		<nav class='top-bar'>
+		<nav class='top-bar' data-topbar>
 			<ul class='title-area'>
 				<li class='name'>
-					<hl><a href='/'>ChestTimer</a></hl>
+					{# fix the url with url_for #}
+					<h1><a href='/'>ChestTimer</a></h1>
 				</li>
 			</ul>
+
+			<section class='top-bar-section'>
+				<ul class='right'>
+					<li class='divider'></li>
+					<li>
+						<a href='#'>Characters</a>
+					</li>
+				</ul>
+			</section>
 		</nav>
 
 		{% block styles %}{% endblock %}
+
 		{% block content %}{% endblock %}
 
 		<script src="{{ url_for('static', filename='vendor/jquery.js') }}"></script>
 		<script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
+
+		<script>$(document).foundation();</script>
 
 		{% block scripts %}{% endblock %}
 	</body>
