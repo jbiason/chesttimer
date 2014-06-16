@@ -92,7 +92,6 @@ class RoosterTest(unittest.TestCase):
         rooster = self._demo_rooster()
         disciplines = rooster.group_by(Rooster.Fields.discipline)
         # hunts, armor, weapon, leather & None
-        self.fail(disciplines)
         self.assertEqual(len(disciplines), 5)
         return
 
