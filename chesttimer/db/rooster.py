@@ -183,4 +183,21 @@ class Rooster(UserList):
 
     def _group_by_discipline(self):
         """Return the rooster ordered by discipline."""
-        return
+        grouping = {}
+        for record in self.data:
+            disciplines = record.disciplines.keys()
+            if not disciplines:
+                disciplines = [None]
+            else:
+                disciplines = [disc.value for disc in disciplines]
+
+            for disc in disciplines:
+                if disc not in grouping:
+                    grouping[disc] = {'group': disc,
+                                      'values': []}
+                grouping[disc]['values'].append(record.json)
+
+        result = []
+        for group_key in sorted(grouping.keys()):
+            result.append(grouping[group_key])
+        return result

@@ -73,6 +73,29 @@ class RoosterTest(unittest.TestCase):
         self.assertEqual(len(races), 2)     # humans and charr
         return
 
+    def test_group_by_profession(self):
+        """Request the list of characters grouped by profession."""
+        rooster = self._demo_rooster()
+        professions = rooster.group_by(Rooster.Fields.profession)
+        self.assertEqual(len(professions), 3)    # guard, warr and engi
+        return
+
+    def test_group_by_order(self):
+        """Request the lsit of characters grouped by order."""
+        rooster = self._demo_rooster()
+        orders = rooster.group_by(Rooster.Fields.order)
+        self.assertEqual(len(orders), 2)    # priori & none
+        return
+
+    def test_group_by_discipline(self):
+        """Request the list of characters grouped by discipline."""
+        rooster = self._demo_rooster()
+        disciplines = rooster.group_by(Rooster.Fields.discipline)
+        # hunts, armor, weapon, leather & None
+        self.fail(disciplines)
+        self.assertEqual(len(disciplines), 5)
+        return
+
     def _kill_db(self):
         """Destroy the database."""
         if os.path.isfile(self.DB):
