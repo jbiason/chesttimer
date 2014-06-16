@@ -27,6 +27,7 @@ class RoosterTest(unittest.TestCase):
         """Add a new character to the rooster."""
         char = Character('test', 80,
                          Character.Races.charr,
+                         Character.Sex.male,
                          Character.Professions.guardian,
                          {}, None)
         rooster = Rooster(self.DB)
@@ -38,6 +39,7 @@ class RoosterTest(unittest.TestCase):
         """Test if saving the rooster actually saves the file."""
         char = Character('test', 80,
                          Character.Races.charr,
+                         Character.Sex.male,
                          Character.Professions.guardian,
                          {Character.Disciplines.armorsmith: 500,
                           Character.Disciplines.weaponsmith: 415},
@@ -106,18 +108,21 @@ class RoosterTest(unittest.TestCase):
         rooster = Rooster(self.DB)
         thorianar = Character('Thorianar', 80,
                               Character.Races.charr,
+                              Character.Sex.male,
                               Character.Professions.guardian,
                               {Character.Disciplines.armorsmith: 500,
                                Character.Disciplines.weaponsmith: 415},
                               Character.Orders.durmand_priori)
         buzzkill = Character('Commander Buzzkill', 80,
                              Character.Races.charr,
+                             Character.Sex.male,
                              Character.Professions.engineer,
                              {Character.Disciplines.leatherworker: 500,
                               Character.Disciplines.huntsman: 400},
                              Character.Orders.durmand_priori)
         sgt_buzzkill = Character('Sgt Buzzkill', 25,
                                  Character.Races.human,
+                                 Character.Sex.female,
                                  Character.Professions.warrior,
                                  {},
                                  None)

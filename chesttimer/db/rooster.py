@@ -40,6 +40,11 @@ class Character(object):
         mesmer = 'Mesmer'
         guardian = 'Guardian'
 
+    class Sex(Enum):
+        """Character sex."""
+        male = 'Male'
+        female = 'Female'
+
     class Races(Enum):
         """Each race."""
         asura = 'Asura'
@@ -65,7 +70,7 @@ class Character(object):
         durmand_priori = 'Durmand Priori'
         vigil = 'Vigil'
 
-    def __init__(self, name, level, race, profession, disciplines, order):
+    def __init__(self, name, level, race, sex, profession, disciplines, order):
         """Create a character
 
         :param name: character name
@@ -74,6 +79,8 @@ class Character(object):
         :type level: int
         :param race: character race
         :type race: :py:class:`Races`
+        :param sex: character sex
+        :type sex: :py:class:`Sex`
         :param profession: character profession
         :type profession: :py:class:`Professions`
         :param disciplines: crafting disciplines and levels
@@ -84,6 +91,7 @@ class Character(object):
         self.name = name
         self.level = level
         self.race = race
+        self.sex = sex
         self.profession = profession
         self.disciplines = disciplines
         self.order = order
@@ -93,6 +101,7 @@ class Character(object):
         return Character(data['name'],
                          data['level'],
                          Character.Races(data['race']),
+                         Character.Sex(data['sex']),
                          Character.Professions(data['profession']),
                          dict([(Character.Disciplines(disc), level)
                                for (disc, level) in
@@ -105,6 +114,7 @@ class Character(object):
             'name': self.name,
             'level': self.level,
             'race': self.race.value if self.race else None,
+            'sex': self.sex.value if self.sex else None,
             'profession': self.profession.value if self.profession else None,
             'order': self.order.value if self.order else None,
             'disciplines': dict([(disc.value, level) for (disc, level) in
