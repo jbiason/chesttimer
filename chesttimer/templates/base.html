@@ -12,5 +12,20 @@
 	</head>
 
 	<body>
+		<nav class='top-bar'>
+			<ul class='title-area'>
+				<li class='name'>
+					<hl><a href='/'>ChestTimer</a></hl>
+				</li>
+			</ul>
+		</nav>
+
+		{% block styles %}{% endblock %}
+		{% block content %}{% endblock %}
+
+		<script src="{{ url_for('static', filename='vendor/jquery.js') }}"></script>
+		<script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
+
+		{% block scripts %}{% endblock %}
 	</body>
 </html>
