@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-"""Main server/controller."""
+"""Character rooster management."""
 
 # ChestTimer, an agenda creator for GW2 chests.
 # Copyright (C) 2014 Julio Biason
@@ -18,27 +18,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Flask
+
+from flask import Blueprint
 from flask import render_template
+from flask import current_app
+from flask import request
 
-from .settings import Settings
+from ..db.rooster import Rooster
 
-# ----------------------------------------------------------------------
-# Start the app
-# ----------------------------------------------------------------------
-app = Flask(__name__)
-app.config.from_object(Settings)
-app.config.from_envvar('CHESTTIMER_CONFIG', True)
+characters = Blueprint('characters', __name__)
 
 
-# ----------------------------------------------------------------------
-# Blueprints
-# ----------------------------------------------------------------------
-from .blueprints.characters import characters
-app.register_blueprint(characters, url_prefix='/chars')
-
-
-# this is temporary
-@app.route('/')
+@characters.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+    order = request.values.get('order', 'level')
+    char_list = rooster.group_by(order)
+    return render_template('char-list.html',
+                           rooster=char_list,
+                           order=order)

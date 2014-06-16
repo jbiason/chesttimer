@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<dl class='sub-nav'>
+	<dt>Group by:</dt>
+	<dd {% if order == "level" %}class='active'{% endif %}>
+		<a href='{{ url_for("characters.index", order="level") }}'>Level</a>
+	</dd>
+	<dd {% if order == "race" %}class='active'{% endif %}>
+		<a href='{{ url_for("characters.index", order="race") }}'>Race</a>
+	</dd>
+	<dd {% if order == "profession" %}class='active'{% endif %}>
+		<a href='{{ url_for("characters.index", order=profession) }}'>Profession</a>
+	</dd>
+	<dd {% if order == "order" %}class='active'{% endif %}>
+		<a href='{{ url_for("characters.index", order=order) }}'>Order</a>
+	</dd>
+	<dd {% if order == "discipline" %}class='active'{% endif %}>
+		<a href='{{ url_for("characters.index", order=discipline) }}'>Discipline</a>
+	</dd>
+</dl>
+
+<table>
+	{% for group in rooster %}
+	<tr>
+		<th colspan="2">
+			{{ group.group }}
+		</th>
+	</tr>
+
+		{% for character in group.values %}
+			<tr>
+				<td>{{ character.name }}</td>
+				<td>{{ character.level }}</td>
+			</tr>
+		{% endfor %}
+	{% endfor %}
+</table>
+{% endblock content %}
+
+{# vim:set ft=htmldjango: #}
