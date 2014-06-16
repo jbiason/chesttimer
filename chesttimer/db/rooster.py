@@ -98,18 +98,31 @@ class Character(object):
 
     @classmethod
     def from_dict(self, data):
+        disciplines = None
+        if 'disciplines' in data and data['disciplines']:
+            disciplines = dict([(Character.Disciplines(disc), level)
+                                for (disc, level) in
+                                data['disciplines'].iteritems()])
+
+        order = None
+        if 'order' in data and data['order']:
+            order = Character.Orders(data['order'])
+
         return Character(data['name'],
                          data['level'],
                          Character.Races(data['race']),
                          Character.Sex(data['sex']),
                          Character.Professions(data['profession']),
-                         dict([(Character.Disciplines(disc), level)
-                               for (disc, level) in
-                               data['disciplines'].iteritems()]),
-                         Character.Orders(data['order']))
+                         disciplines,
+                         order)
 
     @property
     def json(self):
+        disciplines = None
+        if self.disciplines:
+            disciplines = dict([(disc.value, level) for (disc, level) in
+                                self.disciplines.iteritems()])
+
         return {
             'name': self.name,
             'level': self.level,
@@ -117,8 +130,7 @@ class Character(object):
             'sex': self.sex.value if self.sex else None,
             'profession': self.profession.value if self.profession else None,
             'order': self.order.value if self.order else None,
-            'disciplines': dict([(disc.value, level) for (disc, level) in
-                                 self.disciplines.iteritems()])
+            'disciplines': disciplines
         }
 
 
