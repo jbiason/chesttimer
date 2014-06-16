@@ -115,6 +115,14 @@ class Character(object):
 class Rooster(UserList):
     """List of characters."""
 
+    class Fields(Enum):
+        """Fields that can be used to order the fields."""
+        level = 'level'
+        race = 'race'
+        profession = 'profession'
+        order = 'order'
+        discipline = 'discipline'
+
     def __init__(self, path=None):
         self.data = []
         self.path = path
@@ -145,4 +153,31 @@ class Rooster(UserList):
     def add(self, character):
         """Add a new character to the list."""
         self.data.append(character)
+        return
+
+    def group_by(self, field=Fields.level):
+        """Return the list of characters in the rooster, grouped by a
+        field."""
+        if field == Rooster.Fields.discipline:
+            # disciplines require a different ordering method, as a character
+            # may appear in more than one discipline at the same time
+            return self._group_by_discipline()
+
+        # first, order the rooster by the field
+        grouping = {}
+        for record in self.data:
+            key = getattr(record, field.value)
+            if key not in grouping:
+                grouping[key] = {'group': key,
+                                 'values': []}
+
+            grouping[key]['values'].append(record.json)
+
+        result = []
+        for group_key in sorted(grouping.keys()):
+            result.append(grouping[group_key])
+        return result
+
+    def _group_by_discipline(self):
+        """Return the rooster ordered by discipline."""
         return
