@@ -57,6 +57,30 @@ class RoosterTest(unittest.TestCase):
 
     def test_group_by_level(self):
         """Request the list of characters grouped by level."""
+        rooster = self._demo_rooster()
+        levels = rooster.group_by(Rooster.Fields.level)
+        self.assertEqual(len(levels), 2)    # 2 groups, 80 & 25
+        self.assertEqual(levels[0]['group'], 25)    # first group is 25
+        self.assertEqual(levels[1]['group'], 80)    # second group is 80
+        self.assertEqual(len(levels[0]['values']), 1)   # only sgt
+        self.assertEqual(len(levels[1]['values']), 2)   # thor & buzz
+        return
+
+    def test_group_by_race(self):
+        """Request the list of characters grouped by race."""
+        rooster = self._demo_rooster()
+        races = rooster.group_by(Rooster.Fields.race)
+        self.assertEqual(len(races), 2)     # humans and charr
+        return
+
+    def _kill_db(self):
+        """Destroy the database."""
+        if os.path.isfile(self.DB):
+            os.remove(self.DB)
+        return
+
+    def _demo_rooster(self):
+        """Return a rooster with a couple of characters for group testing."""
         rooster = Rooster(self.DB)
         thorianar = Character('Thorianar', 80,
                               Character.Races.charr,
@@ -78,20 +102,7 @@ class RoosterTest(unittest.TestCase):
         rooster.add(thorianar)
         rooster.add(buzzkill)
         rooster.add(sgt_buzzkill)
-
-        levels = rooster.group_by(Rooster.Fields.level)
-        self.assertEqual(len(levels), 2)    # 2 groups, 80 & 25
-        self.assertEqual(levels[0]['group'], 25)    # first group is 25
-        self.assertEqual(levels[1]['group'], 80)    # second group is 80
-        self.assertEqual(len(levels[0]['values']), 1)   # only sgt
-        self.assertEqual(len(levels[1]['values']), 2)   # thor & buzz
-        return
-
-    def _kill_db(self):
-        """Destroy the database."""
-        if os.path.isfile(self.DB):
-            os.remove(self.DB)
-        return
+        return rooster
 
 if __name__ == '__main__':
     unittest.main()

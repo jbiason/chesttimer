@@ -167,6 +167,9 @@ class Rooster(UserList):
         grouping = {}
         for record in self.data:
             key = getattr(record, field.value)
+            if isinstance(key, Enum):
+                key = key.value
+
             if key not in grouping:
                 grouping[key] = {'group': key,
                                  'values': []}
