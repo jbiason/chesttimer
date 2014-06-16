@@ -20,4 +20,5 @@
 
 
 class Settings(object):
-    pass        # nothing (for now)
+    #: Full path to the character rooster storage
+    ROOSTER_PATH = './rooster.json'
