@@ -194,9 +194,9 @@ class Rooster(UserList):
 
             if key not in grouping:
                 grouping[key] = {'group': key,
-                                 'values': []}
+                                 'characters': []}
 
-            grouping[key]['values'].append(record.json)
+            grouping[key]['characters'].append(record.json)
 
         result = []
         for group_key in sorted(grouping.keys()):
@@ -207,17 +207,17 @@ class Rooster(UserList):
         """Return the rooster ordered by discipline."""
         grouping = {}
         for record in self.data:
-            disciplines = record.disciplines.keys()
-            if not disciplines:
+            if not record.disciplines or not record.disciplines.keys():
                 disciplines = [None]
             else:
+                disciplines = record.disciplines.keys()
                 disciplines = [disc.value for disc in disciplines]
 
             for disc in disciplines:
                 if disc not in grouping:
                     grouping[disc] = {'group': disc,
-                                      'values': []}
-                grouping[disc]['values'].append(record.json)
+                                      'characters': []}
+                grouping[disc]['characters'].append(record.json)
 
         result = []
         for group_key in sorted(grouping.keys()):
