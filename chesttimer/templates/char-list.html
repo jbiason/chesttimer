@@ -1,24 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<dl class='sub-nav'>
-	<dt>Group by:</dt>
-	<dd {% if order == "level" %}class='active'{% endif %}>
-		<a href='{{ url_for("characters.index", order="level") }}'>Level</a>
-	</dd>
-	<dd {% if order == "race" %}class='active'{% endif %}>
-		<a href='{{ url_for("characters.index", order="race") }}'>Race</a>
-	</dd>
-	<dd {% if order == "profession" %}class='active'{% endif %}>
-		<a href='{{ url_for("characters.index", order="profession") }}'>Profession</a>
-	</dd>
-	<dd {% if order == "order" %}class='active'{% endif %}>
-		<a href='{{ url_for("characters.index", order="order") }}'>Order</a>
-	</dd>
-	<dd {% if order == "discipline" %}class='active'{% endif %}>
-		<a href='{{ url_for("characters.index", order="discipline") }}'>Discipline</a>
-	</dd>
-</dl>
+<div class='row'>
+	<div class='columns small-11'>
+		<dl class='sub-nav'>
+			<dt>Group by:</dt>
+			<dd {% if order == "level" %}class='active'{% endif %}>
+				<a href='{{ url_for("characters.index", order="level") }}'>Level</a>
+			</dd>
+			<dd {% if order == "race" %}class='active'{% endif %}>
+				<a href='{{ url_for("characters.index", order="race") }}'>Race</a>
+			</dd>
+			<dd {% if order == "profession" %}class='active'{% endif %}>
+				<a href='{{ url_for("characters.index", order="profession") }}'>Profession</a>
+			</dd>
+			<dd {% if order == "order" %}class='active'{% endif %}>
+				<a href='{{ url_for("characters.index", order="order") }}'>Order</a>
+			</dd>
+			<dd {% if order == "discipline" %}class='active'{% endif %}>
+				<a href='{{ url_for("characters.index", order="discipline") }}'>Discipline</a>
+			</dd>
+		</dl>
+	</div>
+
+	<div class='columns small-1'>
+		<a href='#' class='button tiny radius' data-reveal-id='add-modal'>+</a>
+	</div>
+</div>
 
 <div class='row'>
 	<div class='columns small-12'>
@@ -56,6 +64,94 @@
 		</table>
 	</div>
 </div>
+
+<div id='add-modal' class='reveal-modal medium' data-reveal>
+	<form method='POST' action='#'>
+		<div class='row'>
+			<div class='small-10 columns'>
+				<label>Name
+					<input type='text' name='name'>
+				</label>
+			</div>
+
+			<div class='small-2 columns'>
+				<label>Level
+					<input type='number' name='level'>
+				</label>
+			</div>
+		</div>
+
+		<div class='row'>
+			<div class='small-4 columns'>
+				<label>Sex
+					<select name='sex'>
+					</select>
+				</label>
+			</div>
+
+			<div class='small-4 columns'>
+				<label>Race
+					<select name='race'>
+					</select>
+				</label>
+			</div>
+
+			<div class='small-4 columns'>
+				<label>Profession
+					<select name='profession'>
+					</select>
+				</label>
+			</div>
+		</div>
+
+		<div class='row'>
+			<div class='small-8 columns'>
+				<label>Discipline
+					<select name='discipline1'>
+					</select>
+				</label>
+			</div>
+
+			<div class='small-4 columns'>
+				<label>Level
+					<input type='number' name='discipline1_level' disabled>
+				</label>
+			</div>
+		</div>
+
+		<div class='row'>
+			<div class='small-8 columns'>
+				<label>Discipline
+					<select name='discipline2'>
+					</select>
+				</label>
+			</div>
+
+			<div class='small-4 columns'>
+				<label>Level
+					<input type='number' name='discipline1_level' disabled>
+				</label>
+			</div>
+		</div>
+
+		<div class='row'>
+			<div class='small-12 columns'>
+				<label>Order
+					<select name='order'>
+					</select>
+				</label>
+			</div>
+		</div>
+
+		<div class='row'>
+			<div class='small-12 columns text-right'>
+				<button class='button tiny radius secondary'>Cancel</button>
+				<button class='button tiny radius'>Add</button>
+			</div>
+		</div>
+	</form>
+</div>
+
 {% endblock content %}
 
 {# vim:set ft=htmldjango: #}
