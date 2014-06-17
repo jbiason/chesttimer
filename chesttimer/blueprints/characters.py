@@ -33,7 +33,7 @@ characters = Blueprint('characters', __name__)
 def index():
     rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
     order = request.values.get('order', 'level')
-    char_list = rooster.group_by(order)
+    char_list = rooster.group_by(Rooster.Fields(order))
     return render_template('char-list.html',
                            rooster=char_list,
                            order=order)
