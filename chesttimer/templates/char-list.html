@@ -10,32 +10,48 @@
 		<a href='{{ url_for("characters.index", order="race") }}'>Race</a>
 	</dd>
 	<dd {% if order == "profession" %}class='active'{% endif %}>
-		<a href='{{ url_for("characters.index", order=profession) }}'>Profession</a>
+		<a href='{{ url_for("characters.index", order="profession") }}'>Profession</a>
 	</dd>
 	<dd {% if order == "order" %}class='active'{% endif %}>
-		<a href='{{ url_for("characters.index", order=order) }}'>Order</a>
+		<a href='{{ url_for("characters.index", order="order") }}'>Order</a>
 	</dd>
 	<dd {% if order == "discipline" %}class='active'{% endif %}>
-		<a href='{{ url_for("characters.index", order=discipline) }}'>Discipline</a>
+		<a href='{{ url_for("characters.index", order="discipline") }}'>Discipline</a>
 	</dd>
 </dl>
 
-<table>
-	{% for group in rooster %}
-	<tr>
-		<th colspan="2">
-			{{ group.group }}
-		</th>
-	</tr>
+<div class='row'>
+	<div class='columns small-12'>
+		<table>
+			<!-- {{ rooster|safe }} -->
+			{% for group in rooster %}
+				<tr>
+					<th colspan="2">
+						{{ group.group }}
+					</th>
+				</tr>
 
-		{% for character in group.values %}
-			<tr>
-				<td>{{ character.name }}</td>
-				<td>{{ character.level }}</td>
-			</tr>
-		{% endfor %}
-	{% endfor %}
-</table>
+				{% for character in group.characters %}
+					<tr>
+						<td>{{ character.name }}</td>
+						<td>{{ character.level }}</td>
+						<td>{{ character.sex }}</td>
+						<td>{{ character.race }}</td>
+						<td>{{ character.profession }}</td>
+						<td>
+							{% if character.disciplines %}
+								{% for discipline in character.disciplines -%}
+									{% if not loop.first %}, {% endif %}
+									{{ discipline }}: {{ character.disciplines[discipline] }}
+								{%- endfor %}
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			{% endfor %}
+		</table>
+	</div>
+</div>
 {% endblock content %}
 
 {# vim:set ft=htmldjango: #}
