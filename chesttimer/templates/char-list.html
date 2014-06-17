@@ -25,29 +25,33 @@
 		<table>
 			<!-- {{ rooster|safe }} -->
 			{% for group in rooster %}
-				<tr>
-					<th colspan="2">
-						{{ group.group }} ({{ group.characters|count }})
-					</th>
-				</tr>
-
-				{% for character in group.characters %}
+				<thead>
 					<tr>
-						<td>{{ character.name }}</td>
-						<td>{{ character.level }}</td>
-						<td>{{ character.sex }}</td>
-						<td>{{ character.race }}</td>
-						<td>{{ character.profession }}</td>
-						<td>
-							{% if character.disciplines %}
-								{% for discipline in character.disciplines -%}
-									{% if not loop.first %}, {% endif %}
-									{{ discipline }}: {{ character.disciplines[discipline] }}
-								{%- endfor %}
-							{% endif %}
-						</td>
+						<th colspan="6">
+							{{ group.group }} ({{ group.characters|count }})
+						</th>
 					</tr>
-				{% endfor %}
+				</thead>
+
+				<tbody>
+					{% for character in group.characters %}
+						<tr>
+							<td>{{ character.name }}</td>
+							<td>{{ character.level }}</td>
+							<td>{{ character.sex }}</td>
+							<td>{{ character.race }}</td>
+							<td>{{ character.profession }}</td>
+							<td>
+								{% if character.disciplines %}
+									{% for discipline in character.disciplines -%}
+										{% if not loop.first %}, {% endif %}
+										{{ discipline }}: {{ character.disciplines[discipline] }}
+									{%- endfor %}
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
 			{% endfor %}
 		</table>
 	</div>
