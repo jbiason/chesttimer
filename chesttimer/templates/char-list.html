@@ -66,7 +66,7 @@
 </div>
 
 <div id='add-modal' class='reveal-modal medium' data-reveal>
-	<form method='POST' action='#'>
+	<form method='POST' action='{{ url_for("characters.create") }}'>
 		<div class='row'>
 			<div class='small-10 columns'>
 				<label>Name
@@ -143,15 +143,42 @@
 			</div>
 		</div>
 
-		<div class='row'>
+		<div class='row form-control'>
 			<div class='small-12 columns text-right'>
-				<button class='button tiny radius secondary'>Cancel</button>
-				<button class='button tiny radius'>Add</button>
+				<button class='button tiny radius secondary cancel'>Cancel</button>
+				<button class='button tiny radius save'>Add</button>
 			</div>
 		</div>
 	</form>
 </div>
 
 {% endblock content %}
+
+{% block scripts %}
+<script>
+$(function() {
+	$('div.form-control button.cancel').on('click', function(ev) {
+		ev.preventDefault();
+		ev.stopPropagation();
+		$('#add-modal').foundation('reveal', 'close');
+	});
+
+	$('div.form-control button.save').on('click', function(ev) {
+		ev.preventDefault();
+		ev.stopPropagation();
+
+		$.ajax({
+			url: $(this).closest('form').attr('action'),
+			data: $(this).closest('form').serialize(),
+			type: $(this).closest('form').attr('method'),
+			success: function (response) {
+				console.log(response);
+				$('#add-modal').foundation('reveal', 'close');
+			}
+		});
+	});
+});
+</script>
+{% endblock scripts %}
 
 {# vim:set ft=htmldjango: #}

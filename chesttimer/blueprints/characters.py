@@ -25,6 +25,7 @@ from flask import current_app
 from flask import request
 
 from ..db.rooster import Rooster
+from ..db.rooster import Character
 
 characters = Blueprint('characters', __name__)
 
@@ -37,3 +38,9 @@ def index():
     return render_template('char-list.html',
                            rooster=char_list,
                            order=order)
+
+
+@characters.route('/', methods=['POST'])
+def create():
+    rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+    rooster.add(Character())
