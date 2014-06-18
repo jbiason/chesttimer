@@ -37,7 +37,8 @@ def index():
     char_list = rooster.group_by(Rooster.Fields(order))
     return render_template('char-list.html',
                            rooster=char_list,
-                           order=order)
+                           order=order,
+                           sexes=Character.Sex)
 
 
 @characters.route('/', methods=['POST'])
