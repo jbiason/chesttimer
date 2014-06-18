@@ -85,6 +85,9 @@
 			<div class='small-4 columns'>
 				<label>Sex
 					<select name='sex'>
+						{% for elem in sexes %}
+							<option value='{{ elem.name }}'>{{ elem.value }}
+						{% endfor %}
 					</select>
 				</label>
 			</div>
