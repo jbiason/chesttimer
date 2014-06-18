@@ -23,6 +23,7 @@ from flask import Blueprint
 from flask import render_template
 from flask import current_app
 from flask import request
+from flask import jsonify
 
 from ..db.rooster import Rooster
 from ..db.rooster import Character
@@ -43,5 +44,30 @@ def index():
 
 @characters.route('/', methods=['POST'])
 def create():
+    """Add a new characters to the rooster."""
     rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
-    rooster.add(Character())
+    form = request.values
+    name = form.get('name')
+    level = int(form.get('level'))
+    race = Character.Races(form.get('race'))
+    sex = Character.Sex(form.get('sex'))
+    profession = Character.Professions(form.get('profession'))
+
+    disciplines = {}
+    discipline1 = form.get('discipline1')
+    if discipline1:
+        discipline1_level = int(form.get('discipline1_level'))
+        disciplines[Character.Disciplines(discipline1)] = discipline1_level
+
+    discipline2 = form.get('discipline2')
+    if discipline2:
+        discipline2_level = int(form.get('discipline2_level'))
+        disciplines[Character.Disciplines(discipline2)] = discipline2_level
+
+    order = Character.Orders(form.get('order'))
+
+    rooster.add(Character(name, level, race, sex, profession, disciplines,
+                          order))
+    rooster.save()
+
+    return jsonify(status='OK')
