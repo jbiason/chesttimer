@@ -39,7 +39,11 @@ def index():
     return render_template('char-list.html',
                            rooster=char_list,
                            order=order,
-                           sexes=Character.Sex)
+                           sexes=Character.Sex,
+                           races=Character.Races,
+                           professions=Character.Professions,
+                           disciplines=Character.Disciplines,
+                           orders=Character.Orders)
 
 
 @characters.route('/', methods=['POST'])
