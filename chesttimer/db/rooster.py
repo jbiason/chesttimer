@@ -130,8 +130,14 @@ class Character(object):
             'sex': self.sex.value if self.sex else None,
             'profession': self.profession.value if self.profession else None,
             'order': self.order.value if self.order else None,
-            'disciplines': disciplines
+            'disciplines': disciplines,
+            'slug': self.slug
         }
+
+    @property
+    def slug(self):
+        """Return a slugified version of the character name."""
+        return self.name.replace(' ', '_').lower()
 
 
 class Rooster(UserList):
@@ -202,6 +208,27 @@ class Rooster(UserList):
         for group_key in sorted(grouping.keys()):
             result.append(grouping[group_key])
         return result
+
+    def remove(self, character):
+        """Remove a character from the rooster.
+
+        :param character: the character to be removed
+        :type character: str (either name or slug) or :py:class:`Character`"""
+        to_delete = None
+        for (pos, elem) in enumerate(self.data):
+            if isinstance(character, basestring):
+                if elem.name == character or elem.slug == character:
+                    to_delete = pos
+                    break
+
+            if isinstance(character, Character):
+                if elem == character:
+                    to_delete = pos
+                    break
+
+        if to_delete is not None:
+            del self.data[pos]
+        return
 
     def _group_by_discipline(self):
         """Return the rooster ordered by discipline."""

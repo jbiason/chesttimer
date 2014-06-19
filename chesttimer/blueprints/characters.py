@@ -78,3 +78,11 @@ def create():
     rooster.save()
 
     return jsonify(status='OK')
+
+@characters.route('/<character>', methods=['DELETE'])
+def delete(character):
+    """Delete a character from the rooster."""
+    rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+    rooster.remove(character)
+    rooster.save()
+    return jsonify(status='OK')

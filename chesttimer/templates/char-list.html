@@ -10,6 +10,19 @@
 	{% endfor %}
 </select>
 {% endmacro %} {# _select #}
+
+{% block styles %}
+<style>
+#character-list form {
+	margin: 0 !important;
+}
+
+#character-list button {
+	margin: 0 !important;
+}
+</style>
+{% endblock styles %}
+
 {% block content %}
 <div class='row'>
 	<div class='columns small-11'>
@@ -40,12 +53,12 @@
 
 <div class='row'>
 	<div class='columns small-12'>
-		<table>
+		<table id='character-list'>
 			<!-- {{ rooster|safe }} -->
 			{% for group in rooster %}
 				<thead>
 					<tr>
-						<th colspan="6">
+						<th colspan="7">
 							{{ group.group }} ({{ group.characters|count }})
 						</th>
 					</tr>
@@ -66,6 +79,12 @@
 										{{ discipline }}: {{ character.disciplines[discipline] }}
 									{%- endfor %}
 								{% endif %}
+							</td>
+
+							<td>
+								<button class='button tiny alert radius' data-target='{{ url_for("characters.delete", character=character.slug) }}'>
+									Delete
+								</button>
 							</td>
 						</tr>
 					{% endfor %}
@@ -190,6 +209,21 @@ $(function() {
 			success: function (response) {
 				console.log(response);
 				$('#add-modal').foundation('reveal', 'close');
+				window.location.reload();
+			}
+		});
+	});
+
+	$('#character-list button.alert').on('click', function (ev) {
+		ev.preventDefault();
+		ev.stopPropagation();
+
+		$.ajax({
+			url: $(this).data('target'),
+			type: 'DELETE',
+			success: function (response) {
+				console.log(response);
+				window.location.reload();
 			}
 		});
 	});
