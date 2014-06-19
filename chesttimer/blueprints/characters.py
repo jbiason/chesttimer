@@ -68,7 +68,10 @@ def create():
         discipline2_level = int(form.get('discipline2_level'))
         disciplines[Character.Disciplines(discipline2)] = discipline2_level
 
-    order = Character.Orders(form.get('order'))
+    order = None
+    order_value = form.get('order')
+    if order_value:
+        order = Character.Orders(order_value)
 
     rooster.add(Character(name, level, race, sex, profession, disciplines,
                           order))
