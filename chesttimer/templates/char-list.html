@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
+{% macro _select(name, options, none_display=None) %}
+<select name='{{ name }}'>
+	{% if none_display %}
+		<option value=''>{{ none_display }}</option>
+	{% endif %}
+	{% for elem in options %}
+		<option value='{{ elem.value }}'>{{ elem.value }}</option>
+	{% endfor %}
+</select>
+{% endmacro %} {# _select #}
 {% block content %}
 <div class='row'>
 	<div class='columns small-11'>
@@ -84,31 +94,19 @@
 		<div class='row'>
 			<div class='small-4 columns'>
 				<label>Sex
-					<select name='sex'>
-						{% for elem in sexes %}
-							<option value='{{ elem.name }}'>{{ elem.value }}</option>
-						{% endfor %}
-					</select>
+					{{ _select('sex', sexes) }}
 				</label>
 			</div>
 
 			<div class='small-4 columns'>
 				<label>Race
-					<select name='race'>
-						{% for elem in races %}
-							<option value='{{ elem.name }}'>{{ elem.value }}</option>
-						{% endfor %}
-					</select>
+					{{ _select('race', races) }}
 				</label>
 			</div>
 
 			<div class='small-4 columns'>
 				<label>Profession
-					<select name='profession'>
-						{% for elem in professions %}
-							<option value='{{ elem.name }}'>{{ elem.value }}</option>
-						{% endfor %}
-					</select>
+					{{ _select('profession', professions) }}
 				</label>
 			</div>
 		</div>
@@ -116,12 +114,7 @@
 		<div class='row'>
 			<div class='small-8 columns'>
 				<label>Discipline
-					<select name='discipline1'>
-						<option value=''>No discipline yet</option>
-						{% for elem in disciplines %}
-							<option value='{{ elem.name }}'>{{ elem.value }}</option>
-						{% endfor %}
-					</select>
+					{{ _select('discipline1', disciplines, 'No discipline yet') }}
 				</label>
 			</div>
 
@@ -135,12 +128,7 @@
 		<div class='row'>
 			<div class='small-8 columns'>
 				<label>Discipline
-					<select name='discipline2'>
-						<option value=''>No discipline yet</option>
-						{% for elem in disciplines %}
-							<option value='{{ elem.name }}'>{{ elem.value }}</option>
-						{% endfor %}
-					</select>
+					{{ _select('discipline2', disciplines, 'No discipline yet') }}
 				</label>
 			</div>
 
@@ -154,12 +142,7 @@
 		<div class='row'>
 			<div class='small-12 columns'>
 				<label>Order
-					<select name='order'>
-						<option value=''>No order yet</option>
-						{% for elem in orders %}
-							<option value='{{ elem.name }}'>{{ elem.value }}</option>
-						{% endfor %}
-					</select>
+					{{ _select('order', orders, 'No order yet') }}
 				</label>
 			</div>
 		</div>
