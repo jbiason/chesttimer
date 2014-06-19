@@ -58,7 +58,7 @@
 			{% for group in rooster %}
 				<thead>
 					<tr>
-						<th colspan="7">
+						<th colspan="8">
 							{{ group.group }} ({{ group.characters|count }})
 						</th>
 					</tr>
@@ -84,6 +84,12 @@
 							<td>
 								<button class='button tiny alert radius' data-target='{{ url_for("characters.delete", character=character.slug) }}'>
 									Delete
+								</button>
+							</td>
+
+							<td>
+								<button class='button tiny radius' data-target='{{ url_for("characters.update", character=character.slug) }}'>
+									Update
 								</button>
 							</td>
 						</tr>

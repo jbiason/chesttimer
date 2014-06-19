@@ -50,6 +50,33 @@ def index():
 def create():
     """Add a new characters to the rooster."""
     rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+    character = _from_form()
+    rooster.add(character)
+    rooster.save()
+
+    return jsonify(status='OK')
+
+
+@characters.route('/<character>', methods=['DELETE'])
+def delete(character):
+    """Delete a character from the rooster."""
+    rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+    rooster.remove(character)
+    rooster.save()
+    return jsonify(status='OK')
+
+
+@characters.route('/<character>', methods=['PUT'])
+def update(character):
+    """Update the character information."""
+    rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+    rooster.remove(character)
+    rooster.add(_from_form())
+    return jsonify(status='OK')
+
+
+def _from_form():
+    """Create a character from the form information."""
     form = request.values
     name = form.get('name')
     level = int(form.get('level'))
@@ -73,16 +100,4 @@ def create():
     if order_value:
         order = Character.Orders(order_value)
 
-    rooster.add(Character(name, level, race, sex, profession, disciplines,
-                          order))
-    rooster.save()
-
-    return jsonify(status='OK')
-
-@characters.route('/<character>', methods=['DELETE'])
-def delete(character):
-    """Delete a character from the rooster."""
-    rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
-    rooster.remove(character)
-    rooster.save()
-    return jsonify(status='OK')
+    return Character(name, level, race, sex, profession, disciplines, order)
