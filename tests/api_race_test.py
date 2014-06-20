@@ -25,6 +25,6 @@ class APIRaceTests(APITests):
     def test_get(self):
         """Get the list of races."""
         rv = self.app.get('/api/races/')
-        self.assertJSONOk(rv, sexes=['Asura', 'Charr', 'Human', 'Sylvari',
-                                     'Norn'])
+        self.assertJSONOk(rv, races=['Asura', 'Charr', 'Human', 'Norn',
+                                     'Sylvari'])
         return
