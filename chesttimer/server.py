@@ -35,7 +35,7 @@ app.config.from_envvar('CHESTTIMER_CONFIG', True)
 # API
 # ----------------------------------------------------------------------
 from .api.sex import SexView
-SexView.register(app)
+SexView.register(app, route_base='/api/sex/')
 
 
 # ----------------------------------------------------------------------

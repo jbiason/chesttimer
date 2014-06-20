@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-"""API to return the list of valid sexes."""
+"""Tests for the Sex API."""
 
 # ChestTimer, an agenda creator for GW2 chests.
 # Copyright (C) 2014 Julio Biason
@@ -18,15 +18,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from flask import jsonify
-
-from flask.ext.classy import FlaskView
-
-from ..db.rooster import Character
+from api_base import APITests
 
 
-class SexView(FlaskView):
-    def index(self):
-        """Return the list of sexes."""
-        return jsonify(status='OK',
-                       sexes=[elem.value for elem in Character.Sex])
+class APISexTests(APITests):
+    def test_get(self):
+        """Get the list of sexes."""
+        rv = self.app.get('/api/sex/')
+        self.assertJSONOk(rv, sexes=['Female', 'Male'])
+        return
