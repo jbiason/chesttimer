@@ -29,4 +29,5 @@ class SexView(FlaskView):
     def index(self):
         """Return the list of sexes."""
         return jsonify(status='OK',
-                       sexes=[elem.value for elem in Character.Sex])
+                       sexes=sorted([elem.value for elem in
+                                     Character.Sex]))

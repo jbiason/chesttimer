@@ -24,6 +24,6 @@ from api_base import APITests
 class APISexTests(APITests):
     def test_get(self):
         """Get the list of sexes."""
-        rv = self.app.get('/api/sex/')
+        rv = self.app.get('/api/sexes/')
         self.assertJSONOk(rv, sexes=['Female', 'Male'])
         return

@@ -37,7 +37,7 @@ app.config.from_envvar('CHESTTIMER_CONFIG', True)
 from .api.sex import SexView
 from .api.profession import ProfessionView
 
-SexView.register(app, route_base='/api/sex/')
+SexView.register(app, route_base='/api/sexes/')
 ProfessionView.register(app, route_base='/api/professions/')
 
 
