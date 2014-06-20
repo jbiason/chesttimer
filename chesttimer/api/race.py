@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-"""API to return the list of valid professions."""
+"""API to return the list of valid races."""
 
 # ChestTimer, an agenda creator for GW2 chests.
 # Copyright (C) 2014 Julio Biason
@@ -25,9 +25,10 @@ from flask.ext.classy import FlaskView
 from ..db.rooster import Character
 
 
-class ProfessionView(FlaskView):
+class RaceView(FlaskView):
     def index(self):
-        """Return the list of professions."""
+        """Return the list of races."""
         return jsonify(status='OK',
-                       professions=sorted([elem.value for elem in
-                                           Character.Professions]))
+                       races=sorted([elem.value for elem in
+                                     Character.Races]))
+
