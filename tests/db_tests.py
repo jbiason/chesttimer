@@ -64,8 +64,8 @@ class RoosterTest(unittest.TestCase):
         self.assertEqual(len(levels), 2)    # 2 groups, 80 & 25
         self.assertEqual(levels[0]['group'], 25)    # first group is 25
         self.assertEqual(levels[1]['group'], 80)    # second group is 80
-        self.assertEqual(len(levels[0]['values']), 1)   # only sgt
-        self.assertEqual(len(levels[1]['values']), 2)   # thor & buzz
+        self.assertEqual(len(levels[0]['characters']), 1)   # only sgt
+        self.assertEqual(len(levels[1]['characters']), 2)   # thor & buzz
         return
 
     def test_group_by_race(self):
