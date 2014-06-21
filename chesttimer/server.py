@@ -39,12 +39,14 @@ from .api.profession import ProfessionView
 from .api.race import RaceView
 from .api.discipline import DisciplineView
 from .api.order import OrderView
+from .api.character import CharacterView
 
 SexView.register(app, route_base='/api/sexes/')
 ProfessionView.register(app, route_base='/api/professions/')
 RaceView.register(app, route_base='/api/races/')
 DisciplineView.register(app, route_base='/api/disciplines/')
 OrderView.register(app, route_base='/api/orders/')
+CharacterView.register(app, route_base='/api/characters/')
 
 
 # ----------------------------------------------------------------------

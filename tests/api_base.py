@@ -25,6 +25,8 @@ from chesttimer import server
 
 
 class APITests(unittest.TestCase):
+    DB = './rooster.json'
+
     def setUp(self):
         server.app.config['DEBUG'] = True
         server.app.config['TESTING'] = True
