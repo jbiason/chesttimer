@@ -22,19 +22,62 @@ from flask import jsonify
 from flask import current_app
 from flask import request
 
-from flask.ext.classy import FlaskView
+from flask_classy import FlaskView
 
-# from ..db.rooster import Character
+from ..db.rooster import Character
 from ..db.rooster import Rooster
 
 
 class CharacterView(FlaskView):
+
     """API for characters."""
 
+    def __init__(self):
+        """Class instanciation."""
+        return
+
+    # pylint:disable=no-self-use
     def index(self):
         """Return the list of characters in the rooster."""
         rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
         order = request.values.get('order', 'level')
-        char_list = rooster.group_by(Rooster.Fields(order))
+        char_list = rooster.group_by(Rooster.Fields[order])
         return jsonify(status='OK',
                        groups=char_list)
+
+    def post(self):
+        """Create a new character."""
+        rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+        character = self._from_form()
+        rooster.add(character)
+        rooster.save()
+        return jsonify(status='OK')
+
+    # pylint:disable=no-self-use
+    def _from_form(self):
+        """Return a Character object from the request form."""
+        form = request.values
+        name = form.get('name')
+        level = int(form.get('level'))
+        race = Character.Races[form.get('race')]
+        sex = Character.Sex[form.get('sex')]
+        profession = Character.Professions[form.get('profession')]
+
+        disciplines = {}
+        discipline1 = form.get('discipline1')
+        if discipline1:
+            discipline1_level = int(form.get('discipline1_level'))
+            disciplines[Character.Disciplines[discipline1]] = discipline1_level
+
+        discipline2 = form.get('discipline2')
+        if discipline2:
+            discipline2_level = int(form.get('discipline2_level'))
+            disciplines[Character.Disciplines[discipline2]] = discipline2_level
+
+        order = None
+        order_value = form.get('order')
+        if order_value:
+            order = Character.Orders[order_value]
+
+        return Character(name, level, race, sex, profession, disciplines,
+                         order)

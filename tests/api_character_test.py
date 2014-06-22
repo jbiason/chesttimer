@@ -11,21 +11,28 @@ from chesttimer.db.rooster import Character
 from api_base import APITests
 
 
+# pylint:disable=too-many-public-methods
 class APICharacterTest(APITests):
+
+    """Tests for the characters API."""
+
     def setUp(self):
+        """Set up the tests by destroying the database (if it exists) and
+        creating a new rooster."""
         super(APICharacterTest, self).setUp()
         self._kill_db()
         self._demo_rooster()
         return
 
     def tearDown(self):
+        """Tear down the tests by destroying the database."""
         super(APICharacterTest, self).tearDown()
         self._kill_db()
         return
 
     def test_index(self):
         """Get the list of characters."""
-        rv = self.app.get('/api/characters/')
+        response = self.app.get('/api/characters/')
         group_list = [
             {
                 "characters": [
@@ -75,6 +82,31 @@ class APICharacterTest(APITests):
             }
         ]
         self.assertJSONOk(response, groups=group_list)
+        return
+
+    # XXX tests the other orders
+
+    def test_create(self):
+        """Create a new character."""
+        request = {'name': 'new character',
+                   'level': 70,
+                   'race': 'norn',
+                   'sex': 'male',
+                   'profession': 'engineer',
+                   'discipline1': None,
+                   'discipline2': None,
+                   'order': None}
+        response = self.app.post('/api/characters/',
+                                 data=request)
+        self.assertJSONOk(response)
+
+        # check the rooster file.
+        rooster = Rooster(self.DB)
+        for character in rooster.data:
+            if character.slug == 'new_character':
+                return
+
+        self.fail('character is not in the list')
         return
 
     def _demo_rooster(self):
