@@ -20,14 +20,18 @@
 
 from flask import jsonify
 
-from flask.ext.classy import FlaskView
+from flask_classy import FlaskView
 
 from ..db.rooster import Character
 
 
 class SexView(FlaskView):
+
+    """API to return the list of valid sexes."""
+
+    # pylint:disable=no-self-use
     def index(self):
         """Return the list of sexes."""
         return jsonify(status='OK',
-                       sexes=sorted([elem.value for elem in
-                                     Character.Sex]))
+                       sexes=dict([(elem.name, elem.value) for elem in
+                                   Character.Sex]))

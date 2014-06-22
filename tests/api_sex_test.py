@@ -21,9 +21,13 @@
 from api_base import APITests
 
 
+# pylint:disable=too-many-public-methods
 class APISexTests(APITests):
+
+    """Tests for the sex API."""
+
     def test_get(self):
         """Get the list of sexes."""
-        rv = self.app.get('/api/sexes/')
-        self.assertJSONOk(rv, sexes=['Female', 'Male'])
+        response = self.app.get('/api/sexes/')
+        self.assertJSONOk(response, sexes={'female': 'Female', 'male': 'Male'})
         return
