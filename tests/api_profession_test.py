@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-"""Tests for the Sex API."""
+"""Tests for the profession API."""
 
 # ChestTimer, an agenda creator for GW2 chests.
 # Copyright (C) 2014 Julio Biason
@@ -21,13 +21,21 @@
 from api_base import APITests
 
 
+# pylint:disable=too-many-public-methods
 class APISexTests(APITests):
+
+    """Tests for the profession API."""
+
     def test_get(self):
         """Get the list of sexes."""
-        rv = self.app.get('/api/professions/')
-        self.assertJSONOk(rv, professions=['Elementalist', 'Engineer',
-                                           'Guardian', 'Mesmer',
-                                           'Necromancer', 'Ranger', 'Thief',
-                                           'Warrior'])
+        response = self.app.get('/api/professions/')
+        self.assertJSONOk(response, professions={'elementalist':
+                                                 'Elementalist',
+                                                 'engineer': 'Engineer',
+                                                 'guardian': 'Guardian',
+                                                 'mesmer': 'Mesmer',
+                                                 'necromancer': 'Necromancer',
+                                                 'ranger': 'Ranger',
+                                                 'thief': 'Thief',
+                                                 'warrior': 'Warrior'})
         return
-

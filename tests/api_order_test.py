@@ -21,10 +21,16 @@
 from api_base import APITests
 
 
+# pylint:disable=too-many-public-methods
 class APIDisciplineTests(APITests):
+
+    """Tests for the disciplines API."""
+
     def test_get(self):
         """Get the list of disciplines."""
-        rv = self.app.get('/api/orders/')
-        self.assertJSONOk(rv, orders=['Durmand Priori', 'Order of Whispers',
-                                      'Vigil'])
+        response = self.app.get('/api/orders/')
+        self.assertJSONOk(response, orders={'durmand_priori': 'Durmand Priori',
+                                            'order_of_whispers':
+                                            'Order of Whispers',
+                                            'vigil': 'Vigil'})
         return

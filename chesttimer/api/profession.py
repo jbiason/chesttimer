@@ -20,14 +20,18 @@
 
 from flask import jsonify
 
-from flask.ext.classy import FlaskView
+from flask_classy import FlaskView
 
 from ..db.rooster import Character
 
 
 class ProfessionView(FlaskView):
+
+    """Api to return the list of valid professions."""
+
+    # pylint:disable=no-self-use
     def index(self):
         """Return the list of professions."""
         return jsonify(status='OK',
-                       professions=sorted([elem.value for elem in
-                                           Character.Professions]))
+                       professions=dict([(elem.name, elem.value) for elem in
+                                         Character.Professions]))

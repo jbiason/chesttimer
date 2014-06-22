@@ -20,14 +20,18 @@
 
 from flask import jsonify
 
-from flask.ext.classy import FlaskView
+from flask_classy import FlaskView
 
 from ..db.rooster import Character
 
 
 class OrderView(FlaskView):
+
+    """API to return the list of valid orders."""
+
+    # pylint:disable=no-self-use
     def index(self):
         """Return the list of orders."""
         return jsonify(status='OK',
-                       orders=sorted([elem.value for elem in
-                                      Character.Orders]))
+                       orders=dict([(elem.name, elem.value) for elem in
+                                    Character.Orders]))
