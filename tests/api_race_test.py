@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-"""Tests for the Sex API."""
+"""Tests for the race API."""
 
 # ChestTimer, an agenda creator for GW2 chests.
 # Copyright (C) 2014 Julio Biason
@@ -21,10 +21,17 @@
 from api_base import APITests
 
 
+# pylint:disable=too-many-public-methods
 class APIRaceTests(APITests):
+
+    """Tests for the race API."""
+
     def test_get(self):
         """Get the list of races."""
-        rv = self.app.get('/api/races/')
-        self.assertJSONOk(rv, races=['Asura', 'Charr', 'Human', 'Norn',
-                                     'Sylvari'])
+        response = self.app.get('/api/races/')
+        self.assertJSONOk(response, races={'asura': 'Asura',
+                                           'charr': 'Charr',
+                                           'human': 'Human',
+                                           'norn': 'Norn',
+                                           'sylvari': 'Sylvari'})
         return

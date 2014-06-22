@@ -20,15 +20,18 @@
 
 from flask import jsonify
 
-from flask.ext.classy import FlaskView
+from flask_classy import FlaskView
 
 from ..db.rooster import Character
 
 
 class RaceView(FlaskView):
+
+    """API to return the list of valid races."""
+
+    # pylint:disable=no-self-use
     def index(self):
         """Return the list of races."""
         return jsonify(status='OK',
-                       races=sorted([elem.value for elem in
-                                     Character.Races]))
-
+                       races=dict([(elem.name, elem.value) for elem in
+                                   Character.Races]))
