@@ -34,9 +34,9 @@ class APICharacterTest(APITests):
                         "level": 25,
                         "name": "Sgt Buzzkill",
                         "order": None,
-                        "profession": "Warrior",
-                        "race": "Human",
-                        "sex": "Female",
+                        "profession": "warrior",
+                        "race": "human",
+                        "sex": "female",
                         "slug": "sgt_buzzkill"
                     }
                 ],
@@ -46,35 +46,35 @@ class APICharacterTest(APITests):
                 "characters": [
                     {
                         "disciplines": {
-                            "Armorsmith": 500,
-                            "Weaponsmith": 415
+                            "armorsmith": 500,
+                            "weaponsmith": 415
                         },
                         "level": 80,
                         "name": "Thorianar",
-                        "order": "Durmand Priori",
-                        "profession": "Guardian",
-                        "race": "Charr",
-                        "sex": "Male",
+                        "order": "durmand_priori",
+                        "profession": "guardian",
+                        "race": "charr",
+                        "sex": "male",
                         "slug": "thorianar"
                     },
                     {
                         "disciplines": {
-                            "Huntsman": 400,
-                            "Leatherworker": 500
+                            "huntsman": 400,
+                            "leatherworker": 500
                         },
                         "level": 80,
                         "name": "Commander Buzzkill",
-                        "order": "Durmand Priori",
-                        "profession": "Engineer",
-                        "race": "Charr",
-                        "sex": "Male",
+                        "order": "durmand_priori",
+                        "profession": "engineer",
+                        "race": "charr",
+                        "sex": "male",
                         "slug": "commander_buzzkill"
                     }
                 ],
                 "group": 80
             }
         ]
-        self.assertJSONOk(rv, groups=group_list)
+        self.assertJSONOk(response, groups=group_list)
         return
 
     def _demo_rooster(self):
