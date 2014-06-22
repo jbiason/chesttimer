@@ -29,6 +29,7 @@ from enum import Enum
 class Character(object):
     """Single character information."""
 
+    # pylint:disable=too-few-public-methods
     class Professions(Enum):
         """Each profession a character can be."""
         engineer = 'Engineer'
@@ -40,11 +41,13 @@ class Character(object):
         mesmer = 'Mesmer'
         guardian = 'Guardian'
 
+    # pylint:disable=too-few-public-methods
     class Sex(Enum):
         """Character sex."""
         male = 'Male'
         female = 'Female'
 
+    # pylint:disable=too-few-public-methods
     class Races(Enum):
         """Each race."""
         asura = 'Asura'
@@ -53,6 +56,7 @@ class Character(object):
         norn = 'Norn'
         charr = 'Charr'
 
+    # pylint:disable=too-few-public-methods
     class Disciplines(Enum):
         """Crafting disciplines"""
         armorsmith = 'Armorsmith'
@@ -64,12 +68,14 @@ class Character(object):
         tailor = 'Tailor'
         weaponsmith = 'Weaponsmith'
 
+    # pylint:disable=too-few-public-methods
     class Orders(Enum):
         """Each of the orders the character be can aligned to."""
         order_of_whispers = 'Order of Whispers'
         durmand_priori = 'Durmand Priori'
         vigil = 'Vigil'
 
+    # pylint:disable=too-many-arguments
     def __init__(self, name, level, race, sex, profession, disciplines, order):
         """Create a character
 
@@ -97,39 +103,42 @@ class Character(object):
         self.order = order
 
     @classmethod
-    def from_dict(self, data):
+    def from_dict(cls, data):
+        """Convert a dictionary/JSON representation of a character to the
+        object."""
         disciplines = None
         if 'disciplines' in data and data['disciplines']:
-            disciplines = dict([(Character.Disciplines(disc), level)
+            disciplines = dict([(Character.Disciplines[disc], level)
                                 for (disc, level) in
                                 data['disciplines'].iteritems()])
 
         order = None
         if 'order' in data and data['order']:
-            order = Character.Orders(data['order'])
+            order = Character.Orders[data['order']]
 
         return Character(data['name'],
                          data['level'],
-                         Character.Races(data['race']),
-                         Character.Sex(data['sex']),
-                         Character.Professions(data['profession']),
+                         Character.Races[data['race']],
+                         Character.Sex[data['sex']],
+                         Character.Professions[data['profession']],
                          disciplines,
                          order)
 
     @property
     def json(self):
+        """Return a JSON representation of the character."""
         disciplines = None
         if self.disciplines:
-            disciplines = dict([(disc.value, level) for (disc, level) in
+            disciplines = dict([(disc.name, level) for (disc, level) in
                                 self.disciplines.iteritems()])
 
         return {
             'name': self.name,
             'level': self.level,
-            'race': self.race.value if self.race else None,
-            'sex': self.sex.value if self.sex else None,
-            'profession': self.profession.value if self.profession else None,
-            'order': self.order.value if self.order else None,
+            'race': self.race.name if self.race else None,
+            'sex': self.sex.name if self.sex else None,
+            'profession': self.profession.name if self.profession else None,
+            'order': self.order.name if self.order else None,
             'disciplines': disciplines,
             'slug': self.slug
         }
@@ -143,6 +152,7 @@ class Character(object):
 class Rooster(UserList):
     """List of characters."""
 
+    # pylint:disable=too-few-public-methods
     class Fields(Enum):
         """Fields that can be used to order the fields."""
         level = 'level'
@@ -152,6 +162,7 @@ class Rooster(UserList):
         discipline = 'discipline'
 
     def __init__(self, path=None):
+        super(Rooster, self).__init__()
         self.data = []
         self.path = path
         self.load()
@@ -163,7 +174,7 @@ class Rooster(UserList):
             # first run?
             return
 
-        with file(self.path, 'r') as content:
+        with open(self.path, 'r') as content:
             for record in json.load(content):
                 self.data.append(Character.from_dict(record))
         return
@@ -174,7 +185,7 @@ class Rooster(UserList):
         for char in self.data:
             result.append(char.json)
 
-        with file(self.path, 'w') as content:
+        with open(self.path, 'w') as content:
             json.dump(result, content)
         return
 
@@ -215,6 +226,7 @@ class Rooster(UserList):
         :param character: the character to be removed
         :type character: str (either name or slug) or :py:class:`Character`"""
         to_delete = None
+        pos = None
         for (pos, elem) in enumerate(self.data):
             if isinstance(character, basestring):
                 if elem.name == character or elem.slug == character:
