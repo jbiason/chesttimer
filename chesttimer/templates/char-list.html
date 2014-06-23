@@ -1,16 +1,5 @@
 {% extends "base.html" %}
 
-{% macro _select(name, options, none_display=None) %}
-<select name='{{ name }}'>
-	{% if none_display %}
-		<option value=''>{{ none_display }}</option>
-	{% endif %}
-	{% for elem in options %}
-		<option value='{{ elem.value }}'>{{ elem.value }}</option>
-	{% endfor %}
-</select>
-{% endmacro %} {# _select #}
-
 {% block styles %}
 <style>
 #character-list form {
@@ -57,62 +46,44 @@
 <div class='row'>
 	<div class='columns small-12'>
 		<table id='character-list'>
-			<!-- {{ rooster|safe }} -->
-			{% for group in rooster %}
-				<thead>
-					<tr>
-						<th colspan="8">
-							{{ group.group }} ({{ group.characters|count }})
-						</th>
-					</tr>
-				</thead>
+			<tr class='template-group hide'>
+				<th colspan='9'>
+					<span class='group-name'></span> (<span class='group-count'></span>)
+				</th>
+			</tr>
 
-				<tbody>
-					{% for character in group.characters %}
-						<tr>
-							<td>{{ character.name }}</td>
-							<td>{{ character.level }}</td>
-							<td>{{ character.sex }}</td>
-							<td>{{ character.race }}</td>
-							<td>{{ character.profession }}</td>
-							<td>
-								{% if character.disciplines %}
-									{% for discipline in character.disciplines -%}
-										{% if not loop.first %}, {% endif %}
-										{{ discipline }}: {{ character.disciplines[discipline] }}
-									{%- endfor %}
-								{% endif %}
-							</td>
+			<tr class='template-character hide'>
+				<td class='name'></td>
+				<td class='level'></td>
+				<td class='sex'></td>
+				<td class='race'></td>
+				<td class='profession'></td>
+				<td class='disciplines'></td>
+				<td class='order'></td>
+				<td>
+					<button class='button tiny alert radius delete' data-slug=''>
+						Delete
+					</button>
+				</td>
 
-							<td>
-								<button class='button tiny alert radius delete'>
-									Delete
-								</button>
-							</td>
-
-							<td>
-								<button class='button tiny radius update' 
-									 data-reveal-id='character-fields-modal'
-									      data-name='{{ character.name }}'
-									     data-level='{{ character.level }}'
-									       data-sex='{{ character.sex }}'
-									      data-race='{{ character.race }}'
-									data-profession='{{ character.profession }}'
-									     data-order='{{ character.order }}'
-										 {% if character.disciplines -%}
-											{% for discipline in character.disciplines %}
-												data-discipline{{ loop.index }}='{{ discipline }}'
-												data-discipline{{ loop.index }}_level='{{ character.disciplines[discipline] }}'
-											{% endfor %}
-										 {%- endif %}
-									>
-									Update
-								</button>
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			{% endfor %}
+				<td>
+					<button              class='button tiny radius update'
+								data-reveal-id='character-fields-modal'
+									 data-name=''
+									data-level=''
+									  data-sex=''
+									 data-race=''
+							   data-profession=''
+									data-order=''
+							  data-discipline1=''
+						data-discipline1_level=''
+							  data-discipline2=''
+						data-discipline2_level=''
+									data-order=''>
+						Update
+					</button>
+				</td>
+			</tr>
 		</table>
 	</div>
 </div>
@@ -136,19 +107,19 @@
 		<div class='row'>
 			<div class='small-4 columns'>
 				<label>Sex
-					{{ _select('sex', sexes) }}
+					<select name='sex'></select>
 				</label>
 			</div>
 
 			<div class='small-4 columns'>
 				<label>Race
-					{{ _select('race', races) }}
+					<select name='race'></select>
 				</label>
 			</div>
 
 			<div class='small-4 columns'>
 				<label>Profession
-					{{ _select('profession', professions) }}
+					<select name='profession'></select>
 				</label>
 			</div>
 		</div>
@@ -156,7 +127,7 @@
 		<div class='row'>
 			<div class='small-8 columns'>
 				<label>Discipline
-					{{ _select('discipline1', disciplines, 'No discipline yet') }}
+					<select name='discipline1'></select>
 				</label>
 			</div>
 
@@ -170,7 +141,7 @@
 		<div class='row'>
 			<div class='small-8 columns'>
 				<label>Discipline
-					{{ _select('discipline2', disciplines, 'No discipline yet') }}
+					<select name='discipline2'></select>
 				</label>
 			</div>
 
@@ -184,7 +155,7 @@
 		<div class='row'>
 			<div class='small-12 columns'>
 				<label>Order
-					{{ _select('order', orders, 'No order yet') }}
+					<select name='order'></select>
 				</label>
 			</div>
 		</div>
@@ -207,7 +178,41 @@ $(function() {
 	$.ajax({
 		url: '{{ url_for("CharacterView:index") }}',
 		success: function (response) {
-			console.log(response);
+			for(var group in response.groups) {
+				group = response.groups[group];
+				var template = $('#character-list tr.template-group').clone();
+				template
+					.removeClass('template-group')
+					.removeClass('hide');
+				template.find('span.group-name').html(group.group);
+				template.find('span.group-count').html(group.characters.length);
+
+				var head = $('<thead></thead>').append(template);
+				$('#character-list').append(head);
+				var body = $('<tbody></tbody>');
+
+				for (var character in group.characters) {
+					character = group.characters[character];
+					var template = $('#character-list tr.template-character').clone();
+					template
+						.removeClass('template.character')
+						.removeClass('hide');
+
+					template.find('td.name').html(character.name);
+					template.find('td.level').html(character.level);
+					template.find('td.sex').html(character.sex);
+					template.find('td.race').html(character.race);
+					template.find('td.profession').html(character.profession);
+
+					if (character.order) {
+						template.find('td.order').html(character.order);
+					}
+					/* <td class='disciplines'></td> */
+
+					body.append(template);
+				}
+				$('#character-list').append(body);
+			}
 		}
 	});
 });
