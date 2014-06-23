@@ -54,6 +54,7 @@ class CharacterView(FlaskView):
         return jsonify(status='OK')
 
     # def get(self, slug)
+    # def patch(self, slug)
 
     def put(self, slug):
         """Update a character information."""
@@ -63,8 +64,12 @@ class CharacterView(FlaskView):
         rooster.save()
         return jsonify(status='OK')
 
-    # def patch(self, slug)
-    # def delete(self, slug)
+    def delete(self, slug):
+        """Delete a character."""
+        rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+        rooster.remove(slug)
+        rooster.save()
+        return jsonify(status='OK')
 
     # pylint:disable=no-self-use
     def _from_form(self):

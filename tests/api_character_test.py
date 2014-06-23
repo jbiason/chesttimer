@@ -141,6 +141,18 @@ class APICharacterTest(APITests):
         self.fail('character was completely removed')
         return
 
+    def test_delete(self):
+        """Delete a character"""
+        response = self.app.delete('/api/characters/thorianar')
+        self.assertJSONOk(response)
+
+        # check the rooster file
+        rooster = Rooster(self.DB)
+        for character in rooster.data:
+            if character.slug == 'thorianar':
+                self.fail('old character still exists')
+        return
+
     def _demo_rooster(self):
         """Return a rooster with a couple of characters for group testing."""
         rooster = Rooster(self.DB)
