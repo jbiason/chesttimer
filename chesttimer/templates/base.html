@@ -25,7 +25,7 @@
 				<ul class='right'>
 					<li class='divider'></li>
 					<li>
-						<a href='{{ url_for("characters.index") }}'>Characters</a>
+						<a href='{{ url_for("characters") }}'>Characters</a>
 					</li>
 				</ul>
 			</section>
@@ -37,6 +37,7 @@
 
 		<script src="{{ url_for('static', filename='vendor/jquery.js') }}"></script>
 		<script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
+		<script src='{{ url_for("static", filename="chesttimer.js") }}'></script>
 
 		<script>$(document).foundation();</script>
 

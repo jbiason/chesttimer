@@ -25,29 +25,32 @@
 
 {% block content %}
 <div class='row'>
-	<div class='columns small-11'>
+	<div class='columns small-10'>
 		<dl class='sub-nav'>
 			<dt>Group by:</dt>
-			<dd {% if order == "level" %}class='active'{% endif %}>
-				<a href='{{ url_for("characters.index", order="level") }}'>Level</a>
-			</dd>
-			<dd {% if order == "race" %}class='active'{% endif %}>
-				<a href='{{ url_for("characters.index", order="race") }}'>Race</a>
-			</dd>
-			<dd {% if order == "profession" %}class='active'{% endif %}>
-				<a href='{{ url_for("characters.index", order="profession") }}'>Profession</a>
-			</dd>
-			<dd {% if order == "order" %}class='active'{% endif %}>
-				<a href='{{ url_for("characters.index", order="order") }}'>Order</a>
-			</dd>
-			<dd {% if order == "discipline" %}class='active'{% endif %}>
-				<a href='{{ url_for("characters.index", order="discipline") }}'>Discipline</a>
-			</dd>
+			<dd><a href='#' data-order='level'>Level</a></dd>
+			<dd><a href='#' data-order='race'>Race</a></dd>
+			<dd><a href='#' data-order='profession'>Profession</a></dd>
+			<dd><a href='#' data-order='order'>Order</a></dd>
+			<dd><a href='#' data-order='discipline'>Discipline</a></dd>
 		</dl>
 	</div>
 
 	<div class='columns small-1'>
 		<a href='#' class='button tiny radius' data-reveal-id='character-fields-modal'>+</a>
+	</div>
+
+	<div class='columns small-1'>
+		<div class="loading hide">
+			<!-- We make this div spin -->
+			<div class="spinner">
+				<!-- Mask of the quarter of circle -->
+				<div class="mask">
+					<!-- Inner masked circle -->
+					<div class="maskedCircle"></div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -82,7 +85,7 @@
 							</td>
 
 							<td>
-								<button class='button tiny alert radius delete' data-target='{{ url_for("characters.delete", character=character.slug) }}'>
+								<button class='button tiny alert radius delete'>
 									Delete
 								</button>
 							</td>
@@ -90,7 +93,6 @@
 							<td>
 								<button class='button tiny radius update' 
 									 data-reveal-id='character-fields-modal'
-									    data-target='{{ url_for("characters.update", character=character.slug) }}'
 									      data-name='{{ character.name }}'
 									     data-level='{{ character.level }}'
 									       data-sex='{{ character.sex }}'
@@ -116,7 +118,7 @@
 </div>
 
 <div id='character-fields-modal' class='reveal-modal medium' data-reveal>
-	<form method='POST' action='{{ url_for("characters.create") }}'>
+	<form method='POST' action=''>
 		<div class='row'>
 			<div class='small-10 columns'>
 				<label>Name
@@ -200,68 +202,13 @@
 
 {% block scripts %}
 <script>
-function cleanUp() {
-	$('#character-fields-modal input').val('');
-	$('#character-fields-modal select').val('').change();
-}
-
 $(function() {
-	$('div.form-control button.cancel').on('click', function(ev) {
-		ev.preventDefault();
-		ev.stopPropagation();
-		$('#character-fields-modal').foundation('reveal', 'close');
-	});
-
-	$('#character-fields-modal select[name^="discipline"]').on('change', function(ev) {
-		var level = $(this).attr('name') + '_level';
-		var level_input = $('input[name="' + level + '"]');
-		if ($(this).val() != '') {
-			level_input.removeAttr('disabled');
-		} else {
-			level_input
-				.val('')
-				.attr('disabled', true);
+	/* first thing, load the list of characters */
+	$.ajax({
+		url: '{{ url_for("CharacterView:index") }}',
+		success: function (response) {
+			console.log(response);
 		}
-	});
-
-	$('div.form-control button.save').on('click', function(ev) {
-		ev.preventDefault();
-		ev.stopPropagation();
-
-		$.ajax({
-			url: $(this).closest('form').attr('action'),
-			data: $(this).closest('form').serialize(),
-			type: $(this).closest('form').attr('method'),
-			success: function (response) {
-				console.log(response);
-				$('#character-fields-modal').foundation('reveal', 'close');
-				cleanUp();
-				window.location.reload();
-			}
-		});
-	});
-
-	$('#character-list button.delete').on('click', function (ev) {
-		ev.preventDefault();
-		ev.stopPropagation();
-
-		$.ajax({
-			url: $(this).data('target'),
-			type: 'DELETE',
-			success: function (response) {
-				console.log(response);
-				window.location.reload();
-			}
-		});
-	});
-
-	$('#character-list button.update').on('click', function (ev) {
-		/* don't mess with the event, let it proceed so the modal appears */
-		var originals = $(this);
-		cleanUp();
-		$.each(['name', 'level', 'sex', 'race', 'profession', 'order', 'discipline1', 'discipline1_level', 'discipline2', 'discipline2_level'], function(idx, elem) {
-			$('#character-fields-modal [name="' + elem + '"]').val(originals.data(elem)).change();
-		});
 	});
 });
 </script>

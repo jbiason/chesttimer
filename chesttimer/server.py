@@ -50,13 +50,13 @@ CharacterView.register(app, route_base='/api/characters/')
 
 
 # ----------------------------------------------------------------------
-# Blueprints
+#  The static routes (they use the API do to anything.)
 # ----------------------------------------------------------------------
-from .blueprints.characters import characters
-app.register_blueprint(characters, url_prefix='/chars')
-
-
-# this is temporary
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/characters/')
+def characters():
+    return render_template('char-list.html')
