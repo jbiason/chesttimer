@@ -47,46 +47,50 @@
 	{% raw %}
 	<div class='row'>
 		<div class='columns small-12'>
-			<table id='character-list'>
-				<tr ng-repeat='group in groups'>
-					<th colspan='9'>
-						<span class='group-name'>{{ group.group }}</span>
-						(<span class='group-count'></span>)
-					</th>
-				</tr>
+			<table ng-repeat='group in groups'>
+				<thead>
+					<tr>
+						<th colspan='9'>
+							<span class='group-name'>{{ group.group }}</span>
+							(<span class='group-count'>{{ group.characters.length }}</span>)
+						</th>
+					</tr>
+				</thead>
 
-				<tr ng-repeat='character in group.characters'>
-					<td class='name'>{{ character.name }}</td>
-					<td class='level'> {{ character.level }}</td>
-					<td class='sex'>{{ character.sex }}</td>
-					<td class='race'>{{ character.race }}</td>
-					<td class='profession'>{{ character.profession }}</td>
-					<td class='disciplines'>{{ character.disciplines }}</td>
-					<td class='order'>{{ character.order }}</td>
-					<td>
-						<button class='button tiny alert radius delete' data-slug=''>
-							Delete
-						</button>
-					</td>
+				<tbody>
+					<tr ng-repeat='character in group.characters'>
+						<td class='name'>{{ character.name }}</td>
+						<td class='level'> {{ character.level }}</td>
+						<td class='sex'>{{ character.sex }}</td>
+						<td class='race'>{{ character.race }}</td>
+						<td class='profession'>{{ character.profession }}</td>
+						<td class='disciplines'>{{ character.disciplines }}</td>
+						<td class='order'>{{ character.order }}</td>
+						<td>
+							<button class='button tiny alert radius delete' data-slug=''>
+								Delete
+							</button>
+						</td>
 
-					<td>
-						<button              class='button tiny radius update'
-									data-reveal-id='character-fields-modal'
-										 data-name=''
-										data-level=''
-										  data-sex=''
-										 data-race=''
-								   data-profession=''
-										data-order=''
-								  data-discipline1=''
-							data-discipline1_level=''
-								  data-discipline2=''
-							data-discipline2_level=''
-										data-order=''>
-							Update
-						</button>
-					</td>
-				</tr>
+						<td>
+							<button              class='button tiny radius update'
+										data-reveal-id='character-fields-modal'
+											data-name=''
+											data-level=''
+											data-sex=''
+											data-race=''
+									data-profession=''
+											data-order=''
+									data-discipline1=''
+								data-discipline1_level=''
+									data-discipline2=''
+								data-discipline2_level=''
+											data-order=''>
+								Update
+							</button>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>
