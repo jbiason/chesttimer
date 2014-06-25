@@ -6,44 +6,35 @@ table {
 	width: 100%;
 }
 
-/* spinner by http://www.andreaverlicchi.eu/css-3-only-spinning-loading-animation/ */
-/* Animation keyframes - you need to add prefixes */
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+/* character list layout */
+#characters td.name {
+	width: 23%;
 }
- 
-/* Loading animation container */
-.loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 28px;
-    height: 28px;
-    margin: 0 0 0 -14px;
+
+#characters td.level {
+	width: 1%;
 }
- 
-/* Spinning circle (inner circle) */
-.loading .maskedCircle {
-    width: 20px;
-    height: 20px;
-    border-radius: 12px;
-    border: 3px solid black;
+
+#characters td.sex {
+	width: 7%;
 }
- 
-/* Spinning circle mask */
-.loading .mask {
-    width: 12px;
-    height: 12px;
-    overflow: hidden;
+
+#characters td.race {
+	width: 6%;
 }
- 
-/* Spinner */
-.loading .spinner {
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    width: 26px;
-    height: 26px;
-    animation: spin 1s infinite linear;
+
+#characters td.profession {
+	width: 15%;
+}
+
+#characters td.disciplines {
+	width: 17%;
+}
+
+#characters td.order {
+	width: 15%;
+}
+
+#characters td.option {
+	width: 8%;
 }
