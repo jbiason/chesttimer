@@ -13,208 +13,168 @@
 {% endblock styles %}
 
 {% block content %}
-<div class='row'>
-	<div class='columns small-10'>
-		<dl class='sub-nav'>
-			<dt>Group by:</dt>
-			<dd><a href='#' data-order='level'>Level</a></dd>
-			<dd><a href='#' data-order='race'>Race</a></dd>
-			<dd><a href='#' data-order='profession'>Profession</a></dd>
-			<dd><a href='#' data-order='order'>Order</a></dd>
-			<dd><a href='#' data-order='discipline'>Discipline</a></dd>
-		</dl>
-	</div>
+<div id='characters' ng-controller='CharacterController'>
+	<div class='row'>
+		<div class='columns small-10'>
+			<dl class='sub-nav'>
+				<dt>Group by:</dt>
+				<dd><a href='#' data-order='level'>Level</a></dd>
+				<dd><a href='#' data-order='race'>Race</a></dd>
+				<dd><a href='#' data-order='profession'>Profession</a></dd>
+				<dd><a href='#' data-order='order'>Order</a></dd>
+				<dd><a href='#' data-order='discipline'>Discipline</a></dd>
+			</dl>
+		</div>
 
-	<div class='columns small-1'>
-		<a href='#' class='button tiny radius' data-reveal-id='character-fields-modal'>+</a>
-	</div>
+		<div class='columns small-1'>
+			<a href='#' class='button tiny radius' data-reveal-id='character-fields-modal'>+</a>
+		</div>
 
-	<div class='columns small-1'>
-		<div class="loading hide">
-			<!-- We make this div spin -->
-			<div class="spinner">
-				<!-- Mask of the quarter of circle -->
-				<div class="mask">
-					<!-- Inner masked circle -->
-					<div class="maskedCircle"></div>
+		<div class='columns small-1'>
+			<div class="loading hide">
+				<!-- We make this div spin -->
+				<div class="spinner">
+					<!-- Mask of the quarter of circle -->
+					<div class="mask">
+						<!-- Inner masked circle -->
+						<div class="maskedCircle"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<div class='row'>
-	<div class='columns small-12'>
-		<table id='character-list'>
-			<tr class='template-group hide'>
-				<th colspan='9'>
-					<span class='group-name'></span> (<span class='group-count'></span>)
-				</th>
-			</tr>
+	<div class='row'>
+		<div class='columns small-12'>
+			<table id='character-list'>
+				<tr class='template-group hide'>
+					<th colspan='9'>
+						<span class='group-name'></span> (<span class='group-count'></span>)
+					</th>
+				</tr>
 
-			<tr class='template-character hide'>
-				<td class='name'></td>
-				<td class='level'></td>
-				<td class='sex'></td>
-				<td class='race'></td>
-				<td class='profession'></td>
-				<td class='disciplines'></td>
-				<td class='order'></td>
-				<td>
-					<button class='button tiny alert radius delete' data-slug=''>
-						Delete
-					</button>
-				</td>
+				<tr class='template-character hide'>
+					<td class='name'></td>
+					<td class='level'></td>
+					<td class='sex'></td>
+					<td class='race'></td>
+					<td class='profession'></td>
+					<td class='disciplines'></td>
+					<td class='order'></td>
+					<td>
+						<button class='button tiny alert radius delete' data-slug=''>
+							Delete
+						</button>
+					</td>
 
-				<td>
-					<button              class='button tiny radius update'
-								data-reveal-id='character-fields-modal'
-									 data-name=''
-									data-level=''
-									  data-sex=''
-									 data-race=''
-							   data-profession=''
-									data-order=''
-							  data-discipline1=''
-						data-discipline1_level=''
-							  data-discipline2=''
-						data-discipline2_level=''
-									data-order=''>
-						Update
-					</button>
-				</td>
-			</tr>
-		</table>
+					<td>
+						<button              class='button tiny radius update'
+									data-reveal-id='character-fields-modal'
+										 data-name=''
+										data-level=''
+										  data-sex=''
+										 data-race=''
+								   data-profession=''
+										data-order=''
+								  data-discipline1=''
+							data-discipline1_level=''
+								  data-discipline2=''
+							data-discipline2_level=''
+										data-order=''>
+							Update
+						</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div id='character-fields-modal' class='reveal-modal medium' data-reveal>
+		<form method='POST' action=''>
+			<div class='row'>
+				<div class='small-10 columns'>
+					<label>Name
+						<input type='text' name='name'>
+					</label>
+				</div>
+
+				<div class='small-2 columns'>
+					<label>Level
+						<input type='number' name='level'>
+					</label>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='small-4 columns'>
+					<label>Sex
+						<select name='sex'></select>
+					</label>
+				</div>
+
+				<div class='small-4 columns'>
+					<label>Race
+						<select name='race'></select>
+					</label>
+				</div>
+
+				<div class='small-4 columns'>
+					<label>Profession
+						<select name='profession'></select>
+					</label>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='small-8 columns'>
+					<label>Discipline
+						<select name='discipline1'></select>
+					</label>
+				</div>
+
+				<div class='small-4 columns'>
+					<label>Level
+						<input type='number' name='discipline1_level' disabled>
+					</label>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='small-8 columns'>
+					<label>Discipline
+						<select name='discipline2'></select>
+					</label>
+				</div>
+
+				<div class='small-4 columns'>
+					<label>Level
+						<input type='number' name='discipline2_level' disabled>
+					</label>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='small-12 columns'>
+					<label>Order
+						<select name='order'></select>
+					</label>
+				</div>
+			</div>
+
+			<div class='row form-control'>
+				<div class='small-12 columns text-right'>
+					<button class='button tiny radius secondary cancel'>Cancel</button>
+					<button class='button tiny radius save'>Add</button>
+				</div>
+			</div>
+		</form>
 	</div>
 </div>
-
-<div id='character-fields-modal' class='reveal-modal medium' data-reveal>
-	<form method='POST' action=''>
-		<div class='row'>
-			<div class='small-10 columns'>
-				<label>Name
-					<input type='text' name='name'>
-				</label>
-			</div>
-
-			<div class='small-2 columns'>
-				<label>Level
-					<input type='number' name='level'>
-				</label>
-			</div>
-		</div>
-
-		<div class='row'>
-			<div class='small-4 columns'>
-				<label>Sex
-					<select name='sex'></select>
-				</label>
-			</div>
-
-			<div class='small-4 columns'>
-				<label>Race
-					<select name='race'></select>
-				</label>
-			</div>
-
-			<div class='small-4 columns'>
-				<label>Profession
-					<select name='profession'></select>
-				</label>
-			</div>
-		</div>
-
-		<div class='row'>
-			<div class='small-8 columns'>
-				<label>Discipline
-					<select name='discipline1'></select>
-				</label>
-			</div>
-
-			<div class='small-4 columns'>
-				<label>Level
-					<input type='number' name='discipline1_level' disabled>
-				</label>
-			</div>
-		</div>
-
-		<div class='row'>
-			<div class='small-8 columns'>
-				<label>Discipline
-					<select name='discipline2'></select>
-				</label>
-			</div>
-
-			<div class='small-4 columns'>
-				<label>Level
-					<input type='number' name='discipline2_level' disabled>
-				</label>
-			</div>
-		</div>
-
-		<div class='row'>
-			<div class='small-12 columns'>
-				<label>Order
-					<select name='order'></select>
-				</label>
-			</div>
-		</div>
-
-		<div class='row form-control'>
-			<div class='small-12 columns text-right'>
-				<button class='button tiny radius secondary cancel'>Cancel</button>
-				<button class='button tiny radius save'>Add</button>
-			</div>
-		</div>
-	</form>
-</div>
-
 {% endblock content %}
 
 {% block scripts %}
 <script>
 $(function() {
-	/* first thing, load the list of characters */
-	$.ajax({
-		url: '{{ url_for("CharacterView:index") }}',
-		success: function (response) {
-			for(var group in response.groups) {
-				group = response.groups[group];
-				var template = $('#character-list tr.template-group').clone();
-				template
-					.removeClass('template-group')
-					.removeClass('hide');
-				template.find('span.group-name').html(group.group);
-				template.find('span.group-count').html(group.characters.length);
-
-				var head = $('<thead></thead>').append(template);
-				$('#character-list').append(head);
-				var body = $('<tbody></tbody>');
-
-				for (var character in group.characters) {
-					character = group.characters[character];
-					var template = $('#character-list tr.template-character').clone();
-					template
-						.removeClass('template.character')
-						.removeClass('hide');
-
-					template.find('td.name').html(character.name);
-					template.find('td.level').html(character.level);
-					template.find('td.sex').html(character.sex);
-					template.find('td.race').html(character.race);
-					template.find('td.profession').html(character.profession);
-
-					if (character.order) {
-						template.find('td.order').html(character.order);
-					}
-					/* <td class='disciplines'></td> */
-
-					body.append(template);
-				}
-				$('#character-list').append(body);
-			}
-		}
-	});
 });
 </script>
 {% endblock scripts %}
