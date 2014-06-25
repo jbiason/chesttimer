@@ -44,23 +44,25 @@
 		</div>
 	</div>
 
+	{% raw %}
 	<div class='row'>
 		<div class='columns small-12'>
 			<table id='character-list'>
-				<tr class='template-group hide'>
+				<tr ng-repeat='group in groups'>
 					<th colspan='9'>
-						<span class='group-name'></span> (<span class='group-count'></span>)
+						<span class='group-name'>{{ group.group }}</span>
+						(<span class='group-count'></span>)
 					</th>
 				</tr>
 
-				<tr class='template-character hide'>
-					<td class='name'></td>
-					<td class='level'></td>
-					<td class='sex'></td>
-					<td class='race'></td>
-					<td class='profession'></td>
-					<td class='disciplines'></td>
-					<td class='order'></td>
+				<tr ng-repeat='character in group.characters'>
+					<td class='name'>{{ character.name }}</td>
+					<td class='level'> {{ character.level }}</td>
+					<td class='sex'>{{ character.sex }}</td>
+					<td class='race'>{{ character.race }}</td>
+					<td class='profession'>{{ character.profession }}</td>
+					<td class='disciplines'>{{ character.disciplines }}</td>
+					<td class='order'>{{ character.order }}</td>
 					<td>
 						<button class='button tiny alert radius delete' data-slug=''>
 							Delete
@@ -169,6 +171,7 @@
 			</div>
 		</form>
 	</div>
+	{% endraw %}
 </div>
 {% endblock content %}
 
