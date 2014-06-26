@@ -1,8 +1,7 @@
-function CharacterController($scope) {
-  $scope.groups = [
-            {
-                "characters": [
-                    {
+var chesttimerModule = angular.module('ChestTimer', []);
+
+chesttimerModule.controller('CharacterController', function ($scope) {
+  $scope.groups = [{"characters": [{
                         "disciplines": null,
                         "level": 25,
                         "name": "Sgt Buzzkill",
@@ -48,3 +47,4 @@ function CharacterController($scope) {
             }
     ];
 }
+);
