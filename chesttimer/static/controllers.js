@@ -1,7 +1,10 @@
 var chesttimerModule = angular.module('ChestTimer', []);
 
-chesttimerModule.controller('CharacterController', function ($scope) {
-  $scope.groups = [{"characters": [{
+chesttimerModule.factory('Characters', function () {
+  var chars = {};
+  chars.query = function() {
+    // ajax goes here
+    return [{"characters": [{
                         "disciplines": null,
                         "level": 25,
                         "name": "Sgt Buzzkill",
@@ -46,5 +49,21 @@ chesttimerModule.controller('CharacterController', function ($scope) {
                 "group": 80
             }
     ];
-}
-);
+  };
+  return chars;
+});
+
+chesttimerModule.factory('Sexes', function () {
+  var sexes = {};
+  sexes.query = function () {
+    // ajax goes here
+    return {male: 'Male',
+            female: 'Female'};
+  };
+  return sexes;
+});
+
+chesttimerModule.controller('CharacterController', function (Sexes, Characters, $scope) {
+  $scope.sexes = Sexes.query();
+  $scope.groups = Characters.query();
+});
