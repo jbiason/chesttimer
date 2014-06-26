@@ -116,6 +116,14 @@ chesttimerModule.factory('Professions', function () {
   return professions;
 });
 
+function routes($routeProvider) {
+  $routeProvider.
+    when('/characters/:order', {
+      controller: CharacterController,
+      templateUrl: 'characters.html'});
+}
+chesttimerModule.config(routes);
+
 chesttimerModule.controller('CharacterController', function ($scope, Sexes, Races, Orders, Disciplines, Professions, Characters) {
   $scope.sexes = Sexes.query();
   $scope.races = Races.query();

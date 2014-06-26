@@ -27,7 +27,10 @@
 				<ul class='right'>
 					<li class='divider'></li>
 					<li>
-						<a href='{{ url_for("characters") }}'>Characters</a>
+						<!-- <a href='{{ url_for("characters") }}'>Characters</a> -->
+						{% raw %}
+						<a ng-href='#/characters/'>Characters</a>
+						{% endraw %}
 					</li>
 				</ul>
 			</section>
