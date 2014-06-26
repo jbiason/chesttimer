@@ -63,7 +63,7 @@ chesttimerModule.factory('Sexes', function () {
   return sexes;
 });
 
-chesttimerModule.factory('Race', function () {
+chesttimerModule.factory('Races', function () {
   var races = {};
   races.query = function () {
     return {'norn': 'Norn',
@@ -75,7 +75,7 @@ chesttimerModule.factory('Race', function () {
   return races;
 });
 
-chesttimerModule.factory('Order', function () {
+chesttimerModule.factory('Orders', function () {
   var orders = {};
   orders.query = function () {
     return {'order_of_whispers': 'Order of Whispers',
@@ -96,8 +96,7 @@ chesttimerModule.factory('Disciplines', function () {
       'huntsman': 'Huntsman',
       'jeweler': 'Jeweler',
       'leatherworker': 'Leatherworker'
-
-    }
+    };
   };
   return disciplines;
 });
@@ -112,12 +111,12 @@ chesttimerModule.factory('Professions', function () {
     'elementalist': 'Elementalist',
     'ranger': 'Ranger',
     'thief': 'Thief',
-    'engineer': 'Engineer'}
+    'engineer': 'Engineer'};
   };
   return professions;
-})
+});
 
-chesttimerModule.controller('CharacterController', function (Professions, Disciplines, Orders, Races, Sexes, Characters, $scope) {
+chesttimerModule.controller('CharacterController', function ($scope, Sexes, Races, Orders, Disciplines, Professions, Characters) {
   $scope.sexes = Sexes.query();
   $scope.races = Races.query();
   $scope.orders = Orders.query();
