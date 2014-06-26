@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app='ChestTimerApp'>
+	<head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>ChestTimer</title>
+
+			<link rel='stylesheet' href='/static/normalize.css'>
+			<link rel="stylesheet" href='/static/foundation.min.css'>
+			<link rel='stylesheet' href='/static/chesttimer.css'>
+
+			<!-- <script src='/static/vendor/custom.modernizr.js'></script> -->
+			<script src='/static/angular.min.js'></script>
+			<script src='/static/controllers.js'></script>
+	</head>
+
+	<body>
+		<nav class='top-bar' data-topbar>
+			<ul class='title-area'>
+				<li class='name'>
+					<h1><a href='/'>ChestTimer</a></h1>
+				</li>
+			</ul>
+
+			<section class='top-bar-section'>
+				<ul class='right'>
+					<li class='divider'></li>
+					<li>
+						<a ng-href='#/characters/level'>Characters</a>
+					</li>
+				</ul>
+			</section>
+		</nav>
+
+		<div ng-view></div>
+
+		<!-- <script src="/static/vendor/jquery.js"></script> -->
+		<!-- <script src="/static/foundation.min.js"></script> -->
+
+		<!-- <script>$(document).foundation();</script> -->
+	</body>
+</html>
+

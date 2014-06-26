@@ -19,7 +19,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from flask import Flask
-from flask import render_template
+from flask import url_for
+from flask import redirect
+# from flask import render_template
 
 from .settings import Settings
 
@@ -52,11 +54,15 @@ CharacterView.register(app, route_base='/api/characters/')
 # ----------------------------------------------------------------------
 #  The static routes (they use the API do to anything.)
 # ----------------------------------------------------------------------
+# @app.route('/')
+# def index():
+#i     return render_template('index.html')
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return redirect(url_for('static', filename='base.html'))
 
 
-@app.route('/characters/')
-def characters():
-    return render_template('char-list.html')
+# @app.route('/characters/')
+# def characters():
+#     return render_template('char-list.html')

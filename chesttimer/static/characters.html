@@ -1,0 +1,150 @@
+<div id='characters' ng-controller='CharacterController'>
+	<div class='row'>
+		<div class='columns small-11'>
+			<dl class='sub-nav'>
+				<dt>Group by:</dt>
+				<dd><a href='#' data-order='level'>Level</a></dd>
+				<dd><a href='#' data-order='race'>Race</a></dd>
+				<dd><a href='#' data-order='profession'>Profession</a></dd>
+				<dd><a href='#' data-order='order'>Order</a></dd>
+				<dd><a href='#' data-order='discipline'>Discipline</a></dd>
+			</dl>
+		</div>
+
+		<div class='columns small-1'>
+			<a href='#' class='button tiny radius' data-reveal-id='character-fields-modal'>+</a>
+		</div>
+	</div>
+
+	<div class='row'>
+		<div class='columns small-12'>
+			<table ng-repeat='group in groups'>
+				<thead>
+					<tr>
+						<th colspan='9'>
+							<span class='group-name'>{{ group.group }}</span>
+							(<span class='group-count'>{{ group.characters.length }}</span>)
+						</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr ng-repeat='character in group.characters'>
+						<td class='name'>{{ character.name }}</td>
+						<td class='level'> {{ character.level }}</td>
+						<td class='sex'>{{ sexes[character.sex] }}</td>
+						<td class='race'>{{ races[character.race] }}</td>
+						<td class='profession'>{{ professions[character.profession] }}</td>
+						<td class='disciplines'>
+						</td>
+						<td class='order'>{{ orders[character.order] }}</td>
+						<td class='option'>
+							<button class='button tiny alert radius delete' data-slug=''>
+								Delete
+							</button>
+						</td>
+
+						<td class='option'>
+							<button              class='button tiny radius update'
+										data-reveal-id='character-fields-modal'
+											data-name=''
+											data-level=''
+											data-sex=''
+											data-race=''
+									data-profession=''
+											data-order=''
+									data-discipline1=''
+								data-discipline1_level=''
+									data-discipline2=''
+								data-discipline2_level=''
+											data-order=''>
+								Update
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div id='character-fields-modal' class='reveal-modal medium' data-reveal>
+		<form method='POST' action=''>
+			<div class='row'>
+				<div class='small-10 columns'>
+					<label>Name
+						<input type='text' name='name'>
+					</label>
+				</div>
+
+				<div class='small-2 columns'>
+					<label>Level
+						<input type='number' name='level'>
+					</label>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='small-4 columns'>
+					<label>Sex
+						<select name='sex'></select>
+					</label>
+				</div>
+
+				<div class='small-4 columns'>
+					<label>Race
+						<select name='race'></select>
+					</label>
+				</div>
+
+				<div class='small-4 columns'>
+					<label>Profession
+						<select name='profession'></select>
+					</label>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='small-8 columns'>
+					<label>Discipline
+						<select name='discipline1'></select>
+					</label>
+				</div>
+
+				<div class='small-4 columns'>
+					<label>Level
+						<input type='number' name='discipline1_level' disabled>
+					</label>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='small-8 columns'>
+					<label>Discipline
+						<select name='discipline2'></select>
+					</label>
+				</div>
+
+				<div class='small-4 columns'>
+					<label>Level
+						<input type='number' name='discipline2_level' disabled>
+					</label>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='small-12 columns'>
+					<label>Order
+						<select name='order'></select>
+					</label>
+				</div>
+			</div>
+
+			<div class='row form-control'>
+				<div class='small-12 columns text-right'>
+					<button class='button tiny radius secondary cancel'>Cancel</button>
+					<button class='button tiny radius save'>Add</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
