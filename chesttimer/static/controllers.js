@@ -41,34 +41,44 @@ angular.module('ChestTimerApp', ['ngRoute'])
   })
 
   .factory('Characters', function () {
-    return [{characters: [{disciplines: null,
-                           level: 25,
-                           name: "Sgt Buzzkill",
-                           order: null,
-                           profession: "warrior",
-                           race: "human",
-                           sex: "female",
-                           slug: "sgt_buzzkill"}],
-             group: 25},
-            {characters: [{disciplines: {armorsmith: 500,
-                                         weaponsmith: 415},
-                           level: 80,
-                           name: "Thorianar",
-                           order: "durmand_priori",
-                           profession: "guardian",
-                           race: "charr",
-                           sex: "male",
-                           slug: "thorianar"},
-                          {disciplines: {huntsman: 400,
-                                         leatherworker: 500},
-                           level: 80,
-                           name: "Commander Buzzkill",
-                           order: "durmand_priori",
-                           profession: "engineer",
-                           race: "charr",
-                           sex: "male",
-                           slug: "commander_buzzkill"}],
-             group: 80}];
+    characters = {};
+    characters.query = function ($http, $scope, order) {
+      order = order || 'level';
+      $http.get('/api/characters?order=' + order)
+        .success(function (data, status, headers, config) {
+          console.log(data);
+          $scope.characters = data.groups;
+        });
+    };
+    return characters;
+    // return [{characters: [{disciplines: null,
+    //                        level: 25,
+    //                        name: "Sgt Buzzkill",
+    //                        order: null,
+    //                        profession: "warrior",
+    //                        race: "human",
+    //                        sex: "female",
+    //                        slug: "sgt_buzzkill"}],
+    //          group: 25},
+    //         {characters: [{disciplines: {armorsmith: 500,
+    //                                      weaponsmith: 415},
+    //                        level: 80,
+    //                        name: "Thorianar",
+    //                        order: "durmand_priori",
+    //                        profession: "guardian",
+    //                        race: "charr",
+    //                        sex: "male",
+    //                        slug: "thorianar"},
+    //                       {disciplines: {huntsman: 400,
+    //                                      leatherworker: 500},
+    //                        level: 80,
+    //                        name: "Commander Buzzkill",
+    //                        order: "durmand_priori",
+    //                        profession: "engineer",
+    //                        race: "charr",
+    //                        sex: "male",
+    //                        slug: "commander_buzzkill"}],
+    //          group: 80}];
   })
 
   .config(function ($routeProvider) {
@@ -90,13 +100,15 @@ angular.module('ChestTimerApp', ['ngRoute'])
     // empty, for now
   })
 
-  .controller('CharacterController', function ($scope, Sexes, Races, Orders,
+  .controller('CharacterController', function ($scope, $http, Sexes, Races, Orders,
                                                Disciplines, Professions, Characters) {
     $scope.sexes = Sexes;
     $scope.races = Races;
     $scope.orders = Orders;
     $scope.disciplines = Disciplines;
     $scope.professions = Professions;
-    $scope.characters = Characters;
+    // $scope.characters = Characters;
+    $scope.characters = [];
+    Characters.query($http, $scope);
   })
 ;
