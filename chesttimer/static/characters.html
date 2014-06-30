@@ -36,6 +36,7 @@
 						<td class='race'>{{ races[character.race] }}</td>
 						<td class='profession'>{{ professions[character.profession] }}</td>
 						<td class='disciplines'>
+							<span ng-repeat='(discipline, disc_level) in character.disciplines'><span ng-if='$index > 0'>, </span>{{ disciplines[discipline] }}: {{ disc_level }}</span>
 						</td>
 						<td class='order'>{{ orders[character.order] }}</td>
 						<td class='option'>
