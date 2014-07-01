@@ -29,5 +29,5 @@ class DisciplineView(FlaskView):
     def index(self):
         """Return the list of disciplines."""
         return jsonify(status='OK',
-                       disciplines=sorted([elem.value for elem in
-                                           Character.Disciplines]))
+                       disciplines=dict([(elem.name, elem.value) for elem in
+                                         Character.Disciplines]))
