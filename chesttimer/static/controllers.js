@@ -67,9 +67,11 @@ angular.module('ChestTimerApp', ['ngRoute'])
     // empty, for now
   })
 
-  .controller('CharacterController', function ($scope, $http, Sexes, Races, Orders,
-                                               Disciplines, Professions, Characters) {
+  .controller('CharacterController', function ($scope, $routeParams, $http, Sexes, 
+                                               Races, Orders, Disciplines, Professions,
+                                               Characters) {
     $scope.sexes = {} ; $scope.races = {}; $scope.orders = {}; $scope.disciplines = {}; $scope.professions = {};
+    $scope.listOrder = $routeParams.order;
     $scope.characters = [];
 
     // XXX None of those are checking the response.status, which is bad.
@@ -93,7 +95,7 @@ angular.module('ChestTimerApp', ['ngRoute'])
       $scope.professions = response.professions;
     });
 
-    Characters.query().success(function (response) {
+    Characters.query($scope.listOrder).success(function (response) {
       $scope.characters = response.groups;
     });
   })
