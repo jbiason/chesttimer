@@ -3,11 +3,11 @@
 		<div class='columns small-11'>
 			<dl class='sub-nav'>
 				<dt>Group by:</dt>
-				<dd><a ng-href='#/characters/level'>Level</a></dd>
-				<dd><a ng-href='#/characters/race'>Race</a></dd>
-				<dd><a ng-href='#/characters/profession'>Profession</a></dd>
-				<dd><a ng-href='#/characters/order'>Order</a></dd>
-				<dd><a ng-href='#/characters/discipline'>Discipline</a></dd>
+				<dd ng-class="{active: listOrder=='level'}"><a ng-href='#/characters/level'>Level</a></dd>
+				<dd ng-class="{active: listOrder=='race'}"><a -href='#/characters/race'>Race</a></dd>
+				<dd ng-class="{active: listOrder=='profession'}"><a ng-href='#/characters/profession'>Profession</a></dd>
+				<dd ng-class="{active: listOrder=='order'}"><a ng-href='#/characters/order'>Order</a></dd>
+				<dd ng-class="{active: listOrder=='discipline'}"><a ng-href='#/characters/discipline'>Discipline</a></dd>
 			</dl>
 		</div>
 
