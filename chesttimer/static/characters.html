@@ -1,4 +1,4 @@
-<div id='characters' ng-controller='CharacterController'>
+<div id='characters'>
 	<div class='row'>
 		<div class='columns small-11'>
 			<dl class='sub-nav'>
@@ -16,7 +16,7 @@
 		</div>
 	</div>
 
-	<div class='row'>
+	<div class='row' ng-controller='CharacterController'>
 		<div class='columns small-12'>
 			<table ng-repeat='group in characters'>
 				<thead>
@@ -56,38 +56,43 @@
 		</div>
 	</div>
 
-	<div id='character-fields-modal' class='reveal-modal medium' data-reveal>
-		<form method='POST' action=''>
+	<div id='character-fields-modal' class='reveal-modal medium' data-reveal ng-controler='EditCharacterController'>
+		<form method='POST' action='' name='edit'>
 			<div class='row'>
 				<div class='small-10 columns'>
 					<label>Name
-						<input type='text' name='name'>
+						<input type='text' name='name' ng-model='character.name' required>
 					</label>
+					<small class='error' ng-show='edit.name.$error.required'>Name is required.</small>
 				</div>
 
 				<div class='small-2 columns'>
 					<label>Level
-						<input type='number' name='level'>
+						<input type='number' name='level' ng-model='character.level' required min='2' max='80'>
 					</label>
+					<small class='error' ng-show='edit.level.$error.required'>Level is required.</small>
+					<small class='error' ng-show='edit.level.$error.max'>Max level is 80.</small>
+					<small class='error' ng-show='edit.level.$error.min'>Min level is 2 (you must complete the tutorial).</small>
+					<small class='error' ng-show='edit.level.$error.number'>Level must be a number.</small>
 				</div>
 			</div>
 
 			<div class='row'>
 				<div class='small-4 columns'>
 					<label>Sex
-						<select name='sex'></select>
+						<select ng-model='character.sex' ng-options='value for (key, value) in sexes'></select>
 					</label>
 				</div>
 
 				<div class='small-4 columns'>
 					<label>Race
-						<select name='race'></select>
+						<select ng-model='character.race' ng-options='value for (key, value) in races'></select>
 					</label>
 				</div>
 
 				<div class='small-4 columns'>
 					<label>Profession
-						<select name='profession'></select>
+						<select ng-model='character.profession' ng-options='value for (key, value) in professions'></select>
 					</label>
 				</div>
 			</div>
@@ -95,35 +100,39 @@
 			<div class='row'>
 				<div class='small-8 columns'>
 					<label>Discipline
-						<select name='discipline1'></select>
+						<select ng-model='character.discipline1' ng-options='value for (key, value) in disciplines'></select>
 					</label>
 				</div>
 
 				<div class='small-4 columns'>
 					<label>Level
-						<input type='number' name='discipline1_level' disabled>
+						<input type='number' name='discipline1_level' ng-model='discipline1_level' max='500' min='1' ng-disabled='!character.discipline1'>
 					</label>
+					<small class='error' ng-show='edit.discipline1_level.$error.max'>Max discipline level is 500.</small>
+					<small class='error' ng-show='edit.discipline1_level.$error.min'>Min discipline level is 1.</small>
 				</div>
 			</div>
 
 			<div class='row'>
 				<div class='small-8 columns'>
 					<label>Discipline
-						<select name='discipline2'></select>
+						<select ng-model='character.discipline2' ng-options='value for (key, value) in disciplines'></select>
 					</label>
 				</div>
 
 				<div class='small-4 columns'>
 					<label>Level
-						<input type='number' name='discipline2_level' disabled>
+						<input type='number' ng-model='discipline2_level' max='500' min='0' ng-disabled='!character.discipline2'>
 					</label>
+					<small class='error' ng-show='edit.discipline2_level.$error.max'>Max discipline level is 500.</small>
+					<small class='error' ng-show='edit.discipline2_level.$error.min'>Min discipline level is 1.</small>
 				</div>
 			</div>
 
 			<div class='row'>
 				<div class='small-12 columns'>
 					<label>Order
-						<select name='order'></select>
+						<select ng-model='character.order' ng-options='value for (key, value) in orders'></select>
 					</label>
 				</div>
 			</div>
