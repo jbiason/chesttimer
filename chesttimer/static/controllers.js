@@ -105,13 +105,22 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
         templateUrl: 'edit-character-content',
         controller: 'EditCharacterController',
         resolve: {
-          // setting variables to the next controller goes here
+          sexes: function () { return $scope.sexes; },
+          races: function () { return $scope.races; },
+          orders: function () { return $scope.orders; },
+          disciplines: function () { return $scope.disciplines; },
+          professions: function () { return $scope.professions; }
         }
       });
     };
   })
 
-  .controller('EditCharacterController', function ($scope, $modalInstance) {
+  .controller('EditCharacterController', function ($scope, $modalInstance, sexes, races, orders, disciplines, professions) {
+    $scope.sexes = sexes;
+    $scope.races = races;
+    $scope.orders = orders;
+    $scope.disciplines = disciplines;
+    $scope.professions = professions;
     $scope.close = function () {
       $modalInstance.dismiss('cancel');
     };
