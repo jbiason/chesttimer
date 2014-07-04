@@ -12,7 +12,7 @@
 		</div>
 
 		<div class='columns small-1'>
-			<a href='#' class='button tiny radius' data-reveal-id='character-fields-modal'>+</a>
+			<button class='button tiny radius' ng-click='edit()'>+</button>
 		</div>
 	</div>
 
@@ -46,7 +46,7 @@
 						</td>
 
 						<td class='option'>
-							<button class='button tiny radius update' data-reveal-id='character-fields-modal'>
+							<button class='button tiny radius update' ng-click='edit()'>
 								Update ({{ $parent.$index }}, {{ $index }})
 							</button>
 						</td>
@@ -56,7 +56,7 @@
 		</div>
 	</div>
 
-	<div id='character-fields-modal' class='reveal-modal medium' data-reveal ng-controler='EditCharacterController'>
+	<script type='text/ng-template' id='edit-character-content'>
 		<form method='POST' action='' name='edit'>
 			<div class='row'>
 				<div class='small-10 columns'>
@@ -139,10 +139,10 @@
 
 			<div class='row form-control'>
 				<div class='small-12 columns text-right'>
-					<button class='button tiny radius secondary cancel'>Cancel</button>
+					<button class='button tiny radius secondary cancel' ng-click='close()'>Cancel</button>
 					<button class='button tiny radius save'>Add</button>
 				</div>
 			</div>
 		</form>
-	</div>
+	</script>
 </div>

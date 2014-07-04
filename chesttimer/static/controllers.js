@@ -1,4 +1,4 @@
-angular.module('ChestTimerApp', ['ngRoute'])
+angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
   .factory('Sexes', function ($http) {
     var api = {};
     api.query = function () {
@@ -67,7 +67,7 @@ angular.module('ChestTimerApp', ['ngRoute'])
     // empty, for now
   })
 
-  .controller('CharacterController', function ($scope, $routeParams, $http, Sexes, 
+  .controller('CharacterController', function ($scope, $routeParams, $http, $modal, Sexes, 
                                                Races, Orders, Disciplines, Professions,
                                                Characters) {
     $scope.sexes = {} ; $scope.races = {}; $scope.orders = {}; $scope.disciplines = {}; $scope.professions = {};
@@ -98,5 +98,22 @@ angular.module('ChestTimerApp', ['ngRoute'])
     Characters.query($scope.listOrder).success(function (response) {
       $scope.characters = response.groups;
     });
+
+    // methods
+    $scope.edit = function () {
+      $modal.open({
+        templateUrl: 'edit-character-content',
+        controller: 'EditCharacterController',
+        resolve: {
+          // setting variables to the next controller goes here
+        }
+      });
+    };
+  })
+
+  .controller('EditCharacterController', function ($scope, $modalInstance) {
+    $scope.close = function () {
+      $modalInstance.dismiss('cancel');
+    };
   })
 ;
