@@ -100,7 +100,10 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
     });
 
     // methods
-    $scope.edit = function () {
+    $scope.edit = function (group, index) {
+      console.log(group, index);
+      var selected = $scope.characters[group].characters[index];
+      console.log(selected);
       $modal.open({
         templateUrl: 'edit-character-content',
         controller: 'EditCharacterController',
@@ -109,18 +112,26 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
           races: function () { return $scope.races; },
           orders: function () { return $scope.orders; },
           disciplines: function () { return $scope.disciplines; },
-          professions: function () { return $scope.professions; }
+          professions: function () { return $scope.professions; },
+          character: function () { return selected; }
         }
       });
     };
   })
 
-  .controller('EditCharacterController', function ($scope, $modalInstance, sexes, races, orders, disciplines, professions) {
+  .controller('EditCharacterController', function ($scope, $modalInstance, sexes, races, orders, disciplines, professions, character) {
     $scope.sexes = sexes;
     $scope.races = races;
     $scope.orders = orders;
     $scope.disciplines = disciplines;
     $scope.professions = professions;
+
+    if (character) {
+      $scope.character = character;
+    } else {
+      $scope.character = {};
+    }
+
     $scope.close = function () {
       $modalInstance.dismiss('cancel');
     };
