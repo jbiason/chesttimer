@@ -2,7 +2,7 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
   .factory('Sexes', function ($http) {
     var api = {};
     api.query = function () {
-      return $http.get('/api/sexes/');
+      return $http.get('http://127.0.0.1:5000/api/sexes/');
     };
     return api;
   })
@@ -10,7 +10,7 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
   .factory('Races', function ($http) {
     var api = {};
     api.query = function () {
-      return $http.get('/api/races/');
+      return $http.get('http://127.0.0.1:5000/api/races/');
     };
     return api;
   })
@@ -18,7 +18,7 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
   .factory('Orders', function ($http) {
     var api = {};
     api.query = function () {
-      return $http.get('/api/orders/');
+      return $http.get('http://127.0.0.1:5000/api/orders/');
     };
     return api;
   })
@@ -26,7 +26,7 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
   .factory('Disciplines', function ($http) {
     var api = {};
     api.query = function () {
-      return $http.get('/api/disciplines/');
+      return $http.get('http://127.0.0.1:5000/api/disciplines/');
     };
     return api;
   })
@@ -34,7 +34,7 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
   .factory('Professions', function($http) {
     var api = {};
     api.query = function () {
-      return $http.get('/api/professions/');
+      return $http.get('http://127.0.0.1:5000/api/professions/');
     };
     return api;
   })
@@ -43,7 +43,7 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
     var characters = {};
     characters.query = function (order) {
       order = order || 'level';
-      return $http.get('/api/characters/?order=' + order);
+      return $http.get('http://127.0.0.1:5000/api/characters/?order=' + order);
     };
     return characters;
   })
