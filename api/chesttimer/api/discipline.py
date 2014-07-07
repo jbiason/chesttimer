@@ -20,12 +20,17 @@
 
 from flask import jsonify
 
-from flask.ext.classy import FlaskView
+from flask_classy import FlaskView
+
+from flask_cors import cross_origin
 
 from ..db.rooster import Character
 
 
 class DisciplineView(FlaskView):
+    """API to return the list of valid disciplines."""
+    # pylint:disable=no-self-use
+    @cross_origin(headers=['Content-Type'])
     def index(self):
         """Return the list of disciplines."""
         return jsonify(status='OK',

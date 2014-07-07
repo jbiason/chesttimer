@@ -19,6 +19,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
+# pylint:disable=too-few-public-methods
 class Settings(object):
+    """Default configuration for the server."""
     #: Full path to the character rooster storage
     ROOSTER_PATH = './rooster.json'
+
+    #: CORS accepted origins
+    CORS_ORIGINS = ['*']

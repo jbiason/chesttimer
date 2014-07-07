@@ -24,6 +24,8 @@ from flask import request
 
 from flask_classy import FlaskView
 
+from flask_cors import cross_origin
+
 from ..db.rooster import Character
 from ..db.rooster import Rooster
 
@@ -37,6 +39,7 @@ class CharacterView(FlaskView):
         return
 
     # pylint:disable=no-self-use
+    @cross_origin(headers=['Content-Type'])
     def index(self):
         """Return the list of characters in the rooster."""
         rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
@@ -45,6 +48,7 @@ class CharacterView(FlaskView):
         return jsonify(status='OK',
                        groups=char_list)
 
+    @cross_origin(headers=['Content-Type'])
     def post(self):
         """Create a new character."""
         rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
@@ -56,6 +60,7 @@ class CharacterView(FlaskView):
     # def get(self, slug)
     # def patch(self, slug)
 
+    @cross_origin(headers=['Content-Type'])
     def put(self, slug):
         """Update a character information."""
         rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
@@ -64,6 +69,7 @@ class CharacterView(FlaskView):
         rooster.save()
         return jsonify(status='OK')
 
+    @cross_origin(headers=['Content-Type'])
     def delete(self, slug):
         """Delete a character."""
         rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
@@ -72,6 +78,7 @@ class CharacterView(FlaskView):
         return jsonify(status='OK')
 
     # pylint:disable=no-self-use
+    @cross_origin(headers=['Content-Type'])
     def _from_form(self):
         """Return a Character object from the request form."""
         form = request.values

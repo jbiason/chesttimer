@@ -1,4 +1,5 @@
 flask
 flask-script
 flask-classy
+flask-cors
 enum34

@@ -22,6 +22,8 @@ from flask import jsonify
 
 from flask_classy import FlaskView
 
+from flask_cors import cross_origin
+
 from ..db.rooster import Character
 
 
@@ -30,6 +32,7 @@ class RaceView(FlaskView):
     """API to return the list of valid races."""
 
     # pylint:disable=no-self-use
+    @cross_origin(headers=['Content-Type'])
     def index(self):
         """Return the list of races."""
         return jsonify(status='OK',

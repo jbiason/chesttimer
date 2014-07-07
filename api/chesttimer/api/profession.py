@@ -22,6 +22,8 @@ from flask import jsonify
 
 from flask_classy import FlaskView
 
+from flask_cors import cross_origin
+
 from ..db.rooster import Character
 
 
@@ -30,6 +32,7 @@ class ProfessionView(FlaskView):
     """Api to return the list of valid professions."""
 
     # pylint:disable=no-self-use
+    @cross_origin(headers=['Content-Type'])
     def index(self):
         """Return the list of professions."""
         return jsonify(status='OK',
