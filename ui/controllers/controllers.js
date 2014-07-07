@@ -1,4 +1,9 @@
 angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
+  .config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Request-With'];
+  }])
+
   .factory('Sexes', function ($http) {
     var api = {};
     api.query = function () {
