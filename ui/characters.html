@@ -4,7 +4,7 @@
 			<dl class='sub-nav'>
 				<dt>Group by:</dt>
 				<dd ng-class="{active: listOrder=='level'}"><a ng-href='#/characters/level'>Level</a></dd>
-				<dd ng-class="{active: listOrder=='race'}"><a -href='#/characters/race'>Race</a></dd>
+				<dd ng-class="{active: listOrder=='race'}"><a ng-href='#/characters/race'>Race</a></dd>
 				<dd ng-class="{active: listOrder=='profession'}"><a ng-href='#/characters/profession'>Profession</a></dd>
 				<dd ng-class="{active: listOrder=='order'}"><a ng-href='#/characters/order'>Order</a></dd>
 				<dd ng-class="{active: listOrder=='discipline'}"><a ng-href='#/characters/discipline'>Discipline</a></dd>
@@ -80,19 +80,20 @@
 			<div class='row'>
 				<div class='small-4 columns'>
 					<label>Sex
-						<select ng-model='character.sex' ng-options='value for (key, value) in sexes'></select>
+						<select ng-model='character.sex' ng-options='k as v for (k, v) in sexes'required>
+						</select>
 					</label>
 				</div>
 
 				<div class='small-4 columns'>
 					<label>Race
-						<select ng-model='character.race' ng-options='value for (key, value) in races'></select>
+						<select ng-model='character.race' ng-options='key as value for (key, value) in races' required></select>
 					</label>
 				</div>
 
 				<div class='small-4 columns'>
 					<label>Profession
-						<select ng-model='character.profession' ng-options='value for (key, value) in professions'></select>
+						<select ng-model='character.profession' ng-options='key as value for (key, value) in professions' required></select>
 					</label>
 				</div>
 			</div>
@@ -100,7 +101,7 @@
 			<div class='row'>
 				<div class='small-8 columns'>
 					<label>Discipline
-						<select ng-model='character.discipline1' ng-options='value for (key, value) in disciplines'></select>
+						<select ng-model='character.discipline1' ng-options='key as value for (key, value) in disciplines'></select>
 					</label>
 				</div>
 
@@ -116,7 +117,7 @@
 			<div class='row'>
 				<div class='small-8 columns'>
 					<label>Discipline
-						<select ng-model='character.discipline2' ng-options='value for (key, value) in disciplines'></select>
+						<select ng-model='character.discipline2' ng-options='key as value for (key, value) in disciplines'></select>
 					</label>
 				</div>
 
@@ -132,7 +133,7 @@
 			<div class='row'>
 				<div class='small-12 columns'>
 					<label>Order
-						<select ng-model='character.order' ng-options='value for (key, value) in orders'></select>
+						<select ng-model='character.order' ng-options='key as value for (key, value) in orders'></select>
 					</label>
 				</div>
 			</div>
@@ -140,7 +141,7 @@
 			<div class='row form-control'>
 				<div class='small-12 columns text-right'>
 					<button class='button tiny radius secondary cancel' ng-click='close()'>Cancel</button>
-					<button class='button tiny radius save'>Add</button>
+					<button class='button tiny radius save' ng-click='save()'>Add</button>
 				</div>
 			</div>
 		</form>
