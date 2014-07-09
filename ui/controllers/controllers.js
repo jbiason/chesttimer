@@ -1,56 +1,37 @@
-angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
-  .config(['$httpProvider', function ($httpProvider) {
+var serviceConfig = {query: {method: 'GET',
+                             isArray: false}};
+
+angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'ChestTimerConfig'])
+  .config(['$httpProvider', '$resourceProvider', function ($httpProvider, $resourceProvider) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Request-With'];
+    $resourceProvider.defaults.stripTrailingSlashes = false;
   }])
 
-  .factory('Sexes', function ($http) {
-    var api = {};
-    api.query = function () {
-      return $http.get('http://127.0.0.1:5000/api/sexes/');
-    };
-    return api;
+  .factory('Sexes', function ($resource, config) {
+    return $resource(config.server + '/api/sexes/', {}, serviceConfig);
   })
 
-  .factory('Races', function ($http) {
-    var api = {};
-    api.query = function () {
-      return $http.get('http://127.0.0.1:5000/api/races/');
-    };
-    return api;
+  .factory('Races', function ($resource, config) {
+    return $resource(config.server + '/api/races/', {}, serviceConfig);
   })
 
-  .factory('Orders', function ($http) {
-    var api = {};
-    api.query = function () {
-      return $http.get('http://127.0.0.1:5000/api/orders/');
-    };
-    return api;
+  .factory('Orders', function ($resource, config) {
+    return $resource(config.server + '/api/orders/', {}, serviceConfig);
   })
 
-  .factory('Disciplines', function ($http) {
-    var api = {};
-    api.query = function () {
-      return $http.get('http://127.0.0.1:5000/api/disciplines/');
-    };
-    return api;
+  .factory('Disciplines', function ($resource, config) {
+    return $resource(config.server + '/api/disciplines/', {}, serviceConfig);
   })
 
-  .factory('Professions', function($http) {
-    var api = {};
-    api.query = function () {
-      return $http.get('http://127.0.0.1:5000/api/professions/');
-    };
-    return api;
+  .factory('Professions', function($resource, config) {
+    return $resource(config.server + '/api/professions/', {}, serviceConfig);
   })
 
-  .factory('Characters', function ($http) {
-    var characters = {};
-    characters.query = function (order) {
-      order = order || 'level';
-      return $http.get('http://127.0.0.1:5000/api/characters/?order=' + order);
-    };
-    return characters;
+  .factory('Characters', function ($resource, config) {
+    return $resource(config.server + '/api/characters/:slug?order=:order',
+      {slug: '@slug', order: 'level'},
+      serviceConfig);
   })
 
   .config(function ($routeProvider) {
@@ -72,36 +53,48 @@ angular.module('ChestTimerApp', ['ngRoute', 'mm.foundation'])
     // empty, for now
   })
 
-  .controller('CharacterController', function ($scope, $routeParams, $http, $modal, Sexes, 
-                                               Races, Orders, Disciplines, Professions,
-                                               Characters) {
+  .controller('CharacterController', function ($scope, $routeParams, $http, $modal,
+        Sexes, Races, Orders, Disciplines, Professions,
+        Characters) {
     $scope.sexes = {} ; $scope.races = {}; $scope.orders = {}; $scope.disciplines = {}; $scope.professions = {};
     $scope.listOrder = $routeParams.order;
     $scope.characters = [];
 
     // XXX None of those are checking the response.status, which is bad.
-    Sexes.query().success(function (response) {
+    Sexes.query(function (response) {
       $scope.sexes = response.sexes;
+    }, function (error) {
+      console.log(error);
     });
 
-    Races.query().success(function (response) {
+    Races.query(function (response) {
       $scope.races = response.races;
+    }, function (error) {
+      console.log(error);
     });
 
-    Orders.query().success(function (response) {
+    Orders.query(function (response) {
       $scope.orders = response.orders;
+    }, function (error) {
+      console.log(error);
     });
 
-    Disciplines.query().success(function (response) {
+    Disciplines.query(function (response) {
       $scope.disciplines = response.disciplines;
+    }, function(error) {
+      console.log(error);
     });
 
-    Professions.query().success(function (response) {
+    Professions.query(function (response) {
       $scope.professions = response.professions;
+    }, function(error) {
+      console.log(error);
     });
 
-    Characters.query($scope.listOrder).success(function (response) {
+    Characters.query({order: $scope.listOrder}, function (response) {
       $scope.characters = response.groups;
+    }, function (error) {
+      console.log(error);
     });
 
     // methods
