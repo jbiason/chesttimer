@@ -78,10 +78,12 @@ class CharacterView(FlaskView):
         return jsonify(status='OK')
 
     # pylint:disable=no-self-use
-    @cross_origin(headers=['Content-Type'])
     def _from_form(self):
         """Return a Character object from the request form."""
+        json = request.get_json()
         form = request.values
+        if json:
+            form = json
         name = form.get('name')
         level = int(form.get('level'))
         race = Character.Races[form.get('race')]
