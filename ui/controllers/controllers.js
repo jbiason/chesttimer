@@ -1,5 +1,6 @@
 var serviceConfig = {query: {method: 'GET',
-                             isArray: false}};
+                             isArray: false,
+                             cache: true}};
 
 angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'ChestTimerConfig'])
   .config(['$httpProvider', '$resourceProvider', function ($httpProvider, $resourceProvider) {
