@@ -29,9 +29,12 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
   })
 
   .factory('Characters', function ($resource, config) {
-    return $resource(config.server + '/api/characters/:slug?order=:order',
-      {slug: '@slug', order: 'level'},
-      serviceConfig);
+    return $resource(config.server + '/api/characters/:slug',
+      {slug: '@slug'},
+      {query: {method: 'GET',
+               isArray: false},
+       update: {method: 'PUT'}}
+      );
   })
 
   .config(function ($routeProvider) {
@@ -117,7 +120,8 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
     };
   })
 
-  .controller('EditCharacterController', function ($scope, $modalInstance, sexes, races, orders, disciplines, professions, character) {
+  .controller('EditCharacterController', function ($scope, $modalInstance,
+        sexes, races, orders, disciplines, professions, character, Characters) {
     $scope.sexes = sexes;
     $scope.races = races;
     $scope.orders = orders;
@@ -132,6 +136,18 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
 
     $scope.close = function () {
       $modalInstance.dismiss('cancel');
+    };
+
+    $scope.save = function () {
+      $scope.character.slug = $scope.character.name.toLowerCase().replace(' ', '_', 'g');
+      console.log($scope.character.slug);
+      Characters.update($scope.character, function(response) {
+        // success
+        $modalInstance.close($scope.character);
+      }, function (error) {
+        /// error
+        console.log(error);
+      });
     };
   })
 ;
