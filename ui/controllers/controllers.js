@@ -118,6 +118,17 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
           character: function () { return selected; }
         }
       });
+
+      modal.result.then(function () {
+        // due the way we deal with grouping and stuff, we need to ask the
+        // server for new results.
+        console.log('Reloading...');
+        Characters.query({order: $scope.listOrder}, function (response) {
+          $scope.characters = response.groups;
+        }, function (error) {
+          console.log(error);
+        });
+      });
     };
   })
 
