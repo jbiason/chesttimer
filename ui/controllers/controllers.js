@@ -103,10 +103,15 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
 
     // methods
     $scope.edit = function (group, index) {
-      console.log(group, index);
-      var selected = $scope.characters[group].characters[index];
-      console.log(selected);
-      $modal.open({
+      $scope._edit_modal($scope.characters[group].characters[index]);
+    };
+
+    $scope.add = function () {
+      $scope._edit_modal(null);
+    };
+
+    $scope._edit_modal = function(selected) {
+      var modal = $modal.open({
         templateUrl: 'edit-character-content',
         controller: 'EditCharacterController',
         resolve: {
@@ -142,8 +147,10 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
 
     if (character) {
       $scope.character = character;
+      $scope.isNew = false;
     } else {
       $scope.character = {};
+      $scope.isNew = true;
     }
 
     $scope.close = function () {
@@ -153,13 +160,22 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
     $scope.save = function () {
       $scope.character.slug = $scope.character.name.toLowerCase().replace(' ', '_', 'g');
       console.log($scope.character.slug);
-      Characters.update($scope.character, function(response) {
-        // success
-        $modalInstance.close($scope.character);
-      }, function (error) {
-        /// error
-        console.log(error);
-      });
+      
+      if ($scope.isNew) {
+        Characters.save($scope.character, function (response) {
+          $modalInstance.close();
+        }, function (error) {
+          console.log(error);
+        });
+      } else {
+        Characters.update($scope.character, function(response) {
+          // success
+          $modalInstance.close();
+        }, function (error) {
+          /// error
+          console.log(error);
+        });
+      }
     };
   })
 ;
