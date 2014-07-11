@@ -12,7 +12,7 @@
 		</div>
 
 		<div class='columns small-1'>
-			<button class='button tiny radius' ng-click='edit()'>+</button>
+			<button class='button tiny radius' ng-click='add()'>+</button>
 		</div>
 	</div>
 
@@ -46,8 +46,8 @@
 						</td>
 
 						<td class='option'>
-							<button class='button tiny radius update' ng-click='edit($parent.$index, $index)'>
-								Update
+							<button class='button tiny radius' ng-click='edit($parent.$index, $index)'>
+								Edit
 							</button>
 						</td>
 					</tr>
@@ -140,8 +140,10 @@
 
 			<div class='row form-control'>
 				<div class='small-12 columns text-right'>
-					<button class='button tiny radius secondary cancel' ng-click='close()'>Cancel</button>
-					<button class='button tiny radius save' ng-click='save()'>Add</button>
+					<button class='button tiny radius secondary' ng-click='close()'>Cancel</button>
+					<button class='button tiny radius' ng-click='save()'>
+						<span ng-show='isNew'>Add</span><span ng-hide='isNew'>Change</span>
+					</button>
 				</div>
 			</div>
 		</form>
