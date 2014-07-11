@@ -12,7 +12,9 @@
 		</div>
 
 		<div class='columns small-1'>
-			<button class='button tiny radius' ng-click='add()'>+</button>
+			<button class='button tiny radius' ng-click='add()'>
+				<i class='fi-plus'></i>
+			</button>
 		</div>
 	</div>
 
@@ -41,13 +43,13 @@
 						<td class='order'>{{ orders[character.order] }}</td>
 						<td class='option'>
 							<button class='button tiny alert radius delete' data-slug=''>
-								Delete
+								<i class='fi-trash'></i>
 							</button>
 						</td>
 
 						<td class='option'>
 							<button class='button tiny radius' ng-click='edit($parent.$index, $index)'>
-								Edit
+								<i class='fi-pencil'></i>
 							</button>
 						</td>
 					</tr>
