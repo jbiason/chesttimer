@@ -27,11 +27,13 @@ from enum import Enum
 
 
 class Character(object):
-    """Single character information."""
+    """Single character information.
+    """
 
     # pylint:disable=too-few-public-methods
     class Professions(Enum):
-        """Each profession a character can be."""
+        """Each profession a character can be.
+        """
         engineer = 'Engineer'
         necromancer = 'Necromancer'
         thief = 'Thief'
@@ -43,13 +45,15 @@ class Character(object):
 
     # pylint:disable=too-few-public-methods
     class Sex(Enum):
-        """Character sex."""
+        """Character sex.
+        """
         male = 'Male'
         female = 'Female'
 
     # pylint:disable=too-few-public-methods
     class Races(Enum):
-        """Each race."""
+        """Each race.
+        """
         asura = 'Asura'
         sylvari = 'Sylvari'
         human = 'Human'
@@ -58,7 +62,8 @@ class Character(object):
 
     # pylint:disable=too-few-public-methods
     class Disciplines(Enum):
-        """Crafting disciplines"""
+        """Crafting disciplines.
+        """
         armorsmith = 'Armorsmith'
         artificer = 'Artificer'
         chef = 'Chef'
@@ -70,7 +75,8 @@ class Character(object):
 
     # pylint:disable=too-few-public-methods
     class Orders(Enum):
-        """Each of the orders the character be can aligned to."""
+        """Each of the orders the character be can aligned to.
+        """
         order_of_whispers = 'Order of Whispers'
         durmand_priori = 'Durmand Priori'
         vigil = 'Vigil'
@@ -93,7 +99,8 @@ class Character(object):
         :type disciplines: dict, :py:class:`Disciplines` as key, level as
                            value
         :param order: character order
-        :type order: :py:class:`Orders`"""
+        :type order: :py:class:`Orders`
+        """
         self.name = name
         self.level = level
         self.race = race
@@ -105,7 +112,14 @@ class Character(object):
     @classmethod
     def from_dict(cls, data):
         """Convert a dictionary/JSON representation of a character to the
-        object."""
+        object.
+
+        :param data: The character data
+        :type data: dict
+
+        :return: A character
+        :rtype: :py:class:`Character`
+        """
         disciplines = None
         if 'disciplines' in data and data['disciplines']:
             disciplines = dict([(Character.Disciplines[disc], level)
@@ -126,7 +140,11 @@ class Character(object):
 
     @property
     def json(self):
-        """Return a JSON representation of the character."""
+        """Return a JSON representation of the character.
+
+        :return: The character
+        :rtype: dict
+        """
         disciplines = None
         if self.disciplines:
             disciplines = dict([(disc.name, level) for (disc, level) in
@@ -145,7 +163,11 @@ class Character(object):
 
     @property
     def slug(self):
-        """Return a slugified version of the character name."""
+        """Return a slugified version of the character name.
+
+        :return: slug
+        :rtype: str
+        """
         return self.name.replace(' ', '_').lower()
 
 
@@ -154,7 +176,8 @@ class Rooster(UserList):
 
     # pylint:disable=too-few-public-methods
     class Fields(Enum):
-        """Fields that can be used to order the fields."""
+        """Fields that can be used to order the fields.
+        """
         level = 'level'
         race = 'race'
         profession = 'profession'
@@ -162,6 +185,11 @@ class Rooster(UserList):
         discipline = 'discipline'
 
     def __init__(self, path=None):
+        """Start the rooster from the database.
+
+        :param path: The full path for the rooster database.
+        :type path: str
+        """
         super(Rooster, self).__init__()
         self.data = []
         self.path = path
@@ -169,7 +197,8 @@ class Rooster(UserList):
         return
 
     def load(self):
-        """Load the list of characters from the storage."""
+        """Load the list of characters from the storage.
+        """
         if not os.path.isfile(self.path):
             # first run?
             return
@@ -180,7 +209,8 @@ class Rooster(UserList):
         return
 
     def save(self):
-        """Save the current rooster list in the disk."""
+        """Save the current rooster list in the disk.
+        """
         result = []
         for char in self.data:
             result.append(char.json)
@@ -190,13 +220,24 @@ class Rooster(UserList):
         return
 
     def add(self, character):
-        """Add a new character to the list."""
+        """Add a new character to the list.
+
+        :param character: The new character
+        :type: :py:class:`Character`
+        """
         self.data.append(character)
         return
 
     def group_by(self, field=Fields.level):
         """Return the list of characters in the rooster, grouped by a
-        field."""
+        field.
+
+        :param field: The field that must be used to group characters.
+        :type field: :py:class:`Fields`
+
+        :return: The characters grouped by the field
+        :rtype: list
+        """
         if field == Rooster.Fields.discipline:
             # disciplines require a different ordering method, as a character
             # may appear in more than one discipline at the same time
@@ -220,11 +261,31 @@ class Rooster(UserList):
             result.append(grouping[group_key])
         return result
 
+    def find(self, character):
+        """Search for a character and return its position in the rooster.
+
+        :param character: the character to be removed
+        :type character: str (either name or slug) or :py:class:`Character`
+
+        :return: the position in the data where the character is
+        :rtype: int or None
+        """
+        for (pos, elem) in enumerate(self.data):
+            if isinstance(character, basestring):
+                if elem.name == character or elem.slug == character:
+                    return pos
+
+            if isinstance(character, Character):
+                if elem == character:
+                    return pos
+        return None
+
     def remove(self, character):
         """Remove a character from the rooster.
 
         :param character: the character to be removed
-        :type character: str (either name or slug) or :py:class:`Character`"""
+        :type character: str (either name or slug) or :py:class:`Character`
+        """
         to_delete = None
         pos = None
         for (pos, elem) in enumerate(self.data):
@@ -243,7 +304,8 @@ class Rooster(UserList):
         return
 
     def _group_by_discipline(self):
-        """Return the rooster ordered by discipline."""
+        """Return the rooster ordered by discipline.
+        """
         grouping = {}
         for record in self.data:
             if not record.disciplines or not record.disciplines.keys():

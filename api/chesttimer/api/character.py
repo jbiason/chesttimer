@@ -57,7 +57,20 @@ class CharacterView(FlaskView):
         rooster.save()
         return jsonify(status='OK')
 
-    # def get(self, slug)
+    @cross_origin(headers=['Content-Type'])
+    def get(self, slug):
+        """Return the information of a character."""
+        if request.values.get('method') == 'DELETE':
+            return self.delete(slug)
+
+        rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+        pos = rooster.find(slug)
+        if pos is None:
+            return jsonify(status='ERROR')
+
+        return jsonify(status='OK',
+                       character=rooster.data[pos].json())
+
     # def patch(self, slug)
 
     @cross_origin(headers=['Content-Type'])
