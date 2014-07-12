@@ -42,7 +42,7 @@
 						</td>
 						<td class='order'>{{ orders[character.order] }}</td>
 						<td class='option'>
-							<button class='button tiny alert radius delete' data-slug=''>
+							<button class='button tiny alert radius' ng-click='delete($parent.$index, $index)'>
 								<i class='fi-trash'></i>
 							</button>
 						</td>
@@ -63,7 +63,7 @@
 			<div class='row'>
 				<div class='small-10 columns'>
 					<label>Name
-						<input type='text' name='name' ng-model='character.name' required>
+						<input type='text' name='name' ng-model='character.name' required focus>
 					</label>
 					<small class='error' ng-show='edit.name.$error.required'>Name is required.</small>
 				</div>
@@ -149,5 +149,20 @@
 				</div>
 			</div>
 		</form>
+	</script>
+
+	<script type='text/ng-template' id='delete-character-confirmation'>
+		<div class='row'>
+			<div class='small-12 columns'>
+				Confirm deleting {{ character.name }}?
+			</div>
+		</div>
+
+		<div class='row form-control'>
+			<div class='small-12 columns text-right'>
+				<button class='button tiny radius alert' ng-click='delete()'>Delete</button>
+				<button class='button tiny radius' ng-click='close()'>Cancel</button>
+			</div>
+		</div>
 	</script>
 </div>

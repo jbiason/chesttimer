@@ -95,12 +95,6 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
       console.log(error);
     });
 
-    Characters.query({order: $scope.listOrder}, function (response) {
-      $scope.characters = response.groups;
-    }, function (error) {
-      console.log(error);
-    });
-
     // methods
     $scope.edit = function (group, index) {
       $scope._edit_modal($scope.characters[group].characters[index]);
@@ -108,6 +102,31 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
 
     $scope.add = function () {
       $scope._edit_modal(null);
+    };
+
+    $scope.delete = function (group, index) {
+      var character = $scope.characters[group].characters[index];
+      var modal = $modal.open({
+        templateUrl: 'delete-character-confirmation',
+          controller: 'DeleteCharacterController',
+          windowClass: 'small',
+          resolve: {
+            character: function () { return character; }
+          }
+      });
+
+      modal.result.then(function () {
+        $scope._load_characters();
+      });
+    };
+
+    $scope._load_characters = function () {
+      console.log('Reloading...');
+      Characters.query({order: $scope.listOrder}, function (response) {
+        $scope.characters = response.groups;
+      }, function (error) {
+        console.log(error);
+      });
     };
 
     $scope._edit_modal = function(selected) {
@@ -127,14 +146,12 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
       modal.result.then(function () {
         // due the way we deal with grouping and stuff, we need to ask the
         // server for new results.
-        console.log('Reloading...');
-        Characters.query({order: $scope.listOrder}, function (response) {
-          $scope.characters = response.groups;
-        }, function (error) {
-          console.log(error);
-        });
+        $scope._load_characters();
       });
     };
+
+    // first load
+    $scope._load_characters();
   })
 
   .controller('EditCharacterController', function ($scope, $modalInstance,
@@ -176,6 +193,26 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
           console.log(error);
         });
       }
+    };
+  })
+
+  .controller('DeleteCharacterController', function ($scope, $modalInstance,
+        character, Characters) {
+    $scope.character = character; 
+    
+    $scope.close = function () {
+      $modalInstance.dismiss();
+    };
+
+    $scope.delete = function () {
+      var slug = $scope.character.name.toLowerCase().replace(' ', '_', 'g');
+
+      Characters.get({slug: slug, method: 'DELETE'}, function (response) {
+        console.log(response);
+        $modalInstance.close();
+      }, function (error) {
+        console.log(error);
+      });
     };
   })
 ;
