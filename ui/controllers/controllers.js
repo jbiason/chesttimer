@@ -158,9 +158,6 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
     };
 
     $scope.save = function () {
-      $scope.character.slug = $scope.character.name.toLowerCase().replace(' ', '_', 'g');
-      console.log($scope.character.slug);
-      
       if ($scope.isNew) {
         Characters.save($scope.character, function (response) {
           $modalInstance.close();
@@ -168,6 +165,9 @@ angular.module('ChestTimerApp', ['ngRoute', 'ngResource', 'mm.foundation', 'Ches
           console.log(error);
         });
       } else {
+        $scope.character.slug = $scope.character.name.toLowerCase().replace(' ', '_', 'g');
+        console.log($scope.character.slug);
+
         Characters.update($scope.character, function(response) {
           // success
           $modalInstance.close();
