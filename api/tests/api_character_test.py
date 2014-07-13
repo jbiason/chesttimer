@@ -4,6 +4,7 @@
 """Tests for the characters API."""
 
 import os
+import json
 
 # pylint:disable=import-error
 from chesttimer.db.rooster import Rooster
@@ -125,6 +126,39 @@ class APICharacterTest(APITests):
                    'order': None}
         response = self.app.put('/api/characters/thorianar',
                                 data=request)
+        self.assertJSONOk(response)
+
+        # check the rooster file.
+        rooster = Rooster(self.DB)
+        for character in rooster.data:
+            if character.slug == 'thorianar':
+                self.fail('old character still exists')
+
+            if character.slug == 'the_new_thorianar':
+                self.assertEqual(character.name, request['name'])
+                self.assertEqual(character.level, request['level'])
+                self.assertEqual(character.race.name, request['race'])
+                self.assertEqual(character.sex.name, request['sex'])
+                self.assertEqual(character.profession.name,
+                                 request['profession'])
+                self.assertEqual(character.order, request['order'])
+                return
+        self.fail('character was completely removed')
+        return
+
+    def test_update_json(self):
+        """Update a character using JSON request."""
+        request = {'name': 'the new thorianar',
+                   'level': 40,
+                   'race': 'norn',
+                   'sex': 'female',
+                   'profession': 'warrior',
+                   'discipline1': None,
+                   'discipline2': None,
+                   'order': None}
+        response = self.app.put('/api/characters/thorianar',
+                                data=json.dumps(request),
+                                content_type='application/json')
         self.assertJSONOk(response)
 
         # check the rooster file.
