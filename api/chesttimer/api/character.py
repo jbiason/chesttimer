@@ -69,7 +69,7 @@ class CharacterView(FlaskView):
             return jsonify(status='ERROR')
 
         return jsonify(status='OK',
-                       character=rooster.data[pos].json())
+                       character=rooster.data[pos].json)
 
     # def patch(self, slug)
 

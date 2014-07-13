@@ -5,20 +5,24 @@
 
 import os
 
+# pylint:disable=import-error
 from chesttimer.db.rooster import Rooster
 from chesttimer.db.rooster import Character
 
 from api_base import APITests
 
 
+# pylint:disable=fixme
 # pylint:disable=too-many-public-methods
 class APICharacterTest(APITests):
 
     """Tests for the characters API."""
 
     def setUp(self):
-        """Set up the tests by destroying the database (if it exists) and
-        creating a new rooster."""
+        """Set up the tests.
+
+        Destroys the database (if it exists) and creating a new rooster.
+        """
         super(APICharacterTest, self).setUp()
         self._kill_db()
         self._demo_rooster()
@@ -142,7 +146,7 @@ class APICharacterTest(APITests):
         return
 
     def test_delete(self):
-        """Delete a character"""
+        """Delete a character."""
         response = self.app.delete('/api/characters/thorianar')
         self.assertJSONOk(response)
 
@@ -151,6 +155,21 @@ class APICharacterTest(APITests):
         for character in rooster.data:
             if character.slug == 'thorianar':
                 self.fail('old character still exists')
+        return
+
+    def test_get(self):
+        """Try to get information about a single character."""
+        response = self.app.get('/api/characters/thorianar')
+        character = {'disciplines': {'armorsmith': 500,
+                                     'weaponsmith': 415},
+                     'level': 80,
+                     'name': 'Thorianar',
+                     'order': 'durmand_priori',
+                     'profession': 'guardian',
+                     'race': 'charr',
+                     'sex': 'male',
+                     'slug': 'thorianar'}
+        self.assertJSONOk(response, character=character)
         return
 
     def _demo_rooster(self):
