@@ -21,6 +21,7 @@
 from flask import jsonify
 from flask import current_app
 from flask import request
+from flask import abort
 
 from flask_classy import FlaskView
 
@@ -66,7 +67,7 @@ class CharacterView(FlaskView):
         rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
         pos = rooster.find(slug)
         if pos is None:
-            return jsonify(status='ERROR')
+            abort(404)
 
         return jsonify(status='OK',
                        character=rooster.data[pos].json)
@@ -77,6 +78,9 @@ class CharacterView(FlaskView):
     def put(self, slug):
         """Update a character information."""
         rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+        if rooster.find(slug) is None:
+            abort(404)
+
         rooster.remove(slug)
         rooster.add(self._from_form())
         rooster.save()
@@ -86,6 +90,9 @@ class CharacterView(FlaskView):
     def delete(self, slug):
         """Delete a character."""
         rooster = Rooster(current_app.config.get('ROOSTER_PATH'))
+        if rooster.find(slug) is None:
+            abort(404)
+
         rooster.remove(slug)
         rooster.save()
         return jsonify(status='OK')

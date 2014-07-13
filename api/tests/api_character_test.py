@@ -184,6 +184,12 @@ class APICharacterTest(APITests):
         self.assertJSONOk(response, character=character)
         return
 
+    def test_get_not_found(self):
+        """Get information of a character that doesn't exist."""
+        response = self.app.get('/api/characters/test')
+        self.assertEqual(response.status_code, 404)
+        return
+
     def _demo_rooster(self):
         """Return a rooster with a couple of characters for group testing."""
         rooster = Rooster(self.DB)
