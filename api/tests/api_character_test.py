@@ -157,7 +157,7 @@ class APICharacterTest(APITests):
                    'discipline1_level': 400,
                    'discipline2': 'artificer',
                    'discipline2_level': 120,
-                   'order': None}
+                   'order': 'vigil'}
         response = self.app.put('/api/characters/thorianar',
                                 data=json.dumps(request),
                                 content_type='application/json')
