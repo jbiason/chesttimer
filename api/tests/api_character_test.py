@@ -145,6 +145,21 @@ class APICharacterTest(APITests):
         self.fail('character was completely removed')
         return
 
+    def test_update_not_found(self):
+        """Update a character that doesn't exist."""
+        request = {'name': 'the new thorianar',
+                   'level': 40,
+                   'race': 'norn',
+                   'sex': 'female',
+                   'profession': 'warrior',
+                   'discipline1': None,
+                   'discipline2': None,
+                   'order': None}
+        response = self.app.put('/api/characters/test',
+                                data=request)
+        self.assertEqual(response.status_code, 404)
+        return
+
     def test_delete(self):
         """Delete a character."""
         response = self.app.delete('/api/characters/thorianar')
