@@ -176,7 +176,7 @@ class APICharacterTest(APITests):
                 self.assertEqual(character.sex.name, request['sex'])
                 self.assertEqual(character.profession.name,
                                  request['profession'])
-                self.assertEqual(character.order, request['order'])
+                self.assertEqual(character.order.name, request['order'])
                 return
         self.fail('character was completely removed')
         return
