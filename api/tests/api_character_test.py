@@ -184,6 +184,12 @@ class APICharacterTest(APITests):
                 self.fail('old character still exists')
         return
 
+    def test_delete_not_found(self):
+        """Delete a character that doesn't exist."""
+        response = self.app.delete('/api/characters/test')
+        self.assertEqual(response.status_code, 404)
+        return
+
     def test_get(self):
         """Try to get information about a single character."""
         response = self.app.get('/api/characters/thorianar')
