@@ -157,6 +157,18 @@ class APICharacterTest(APITests):
                 self.fail('old character still exists')
         return
 
+    def test_delete_get(self):
+        """Delete a character using GET."""
+        response = self.app.get('/api/characters/thorianar?method=DELETE')
+        self.assertJSONOk(response)
+
+        # check the rooster file
+        rooster = Rooster(self.DB)
+        for character in rooster.data:
+            if character.slug == 'thorianar':
+                self.fail('old character still exists')
+        return
+
     def test_get(self):
         """Try to get information about a single character."""
         response = self.app.get('/api/characters/thorianar')
