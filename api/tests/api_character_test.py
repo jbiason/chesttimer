@@ -153,8 +153,10 @@ class APICharacterTest(APITests):
                    'race': 'norn',
                    'sex': 'female',
                    'profession': 'warrior',
-                   'discipline1': None,
-                   'discipline2': None,
+                   'discipline1': 'chef',
+                   'discipline1_level': 400,
+                   'discipline2': 'artificer',
+                   'discipline2_level': 120,
                    'order': None}
         response = self.app.put('/api/characters/thorianar',
                                 data=json.dumps(request),
