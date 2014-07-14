@@ -6,19 +6,29 @@
 import os
 import unittest
 
+# pylint:disable=import-error
 from chesttimer.db.rooster import Rooster
 from chesttimer.db.rooster import Character
 
 
+# pylint:disable=too-many-public-methods
 class RoosterTest(unittest.TestCase):
-    DB = './rooster.json'
+
+    """Tests for the rooster/database."""
+
+    ROOSTER = './rooster.json'
 
     def setUp(self):
+        """Set up the global database.
+
+        Just make sure the database doesn't exist.
+        """
         super(RoosterTest, self).setUp()
         self._kill_db()
         return
 
     def tearDown(self):
+        """Tear down the global database."""
         super(RoosterTest, self).tearDown()
         self._kill_db()
         return
@@ -30,7 +40,7 @@ class RoosterTest(unittest.TestCase):
                          Character.Sex.male,
                          Character.Professions.guardian,
                          {}, None)
-        rooster = Rooster(self.DB)
+        rooster = Rooster(self.ROOSTER)
         rooster.add(char)
         self.assertEqual(len(rooster), 1)
         return
@@ -44,14 +54,14 @@ class RoosterTest(unittest.TestCase):
                          {Character.Disciplines.armorsmith: 500,
                           Character.Disciplines.weaponsmith: 415},
                          Character.Orders.durmand_priori)
-        rooster = Rooster(self.DB)
+        rooster = Rooster(self.ROOSTER)
         rooster.add(char)
 
         rooster.save()
-        self.assertTrue(os.path.isfile(self.DB))
+        self.assertTrue(os.path.isfile(self.ROOSTER))
 
         # try to load it back
-        new_rooster = Rooster(self.DB)
+        new_rooster = Rooster(self.ROOSTER)
 
         self.assertEqual(len(new_rooster), 1)
         self.assertEqual(new_rooster[0].name, 'test')
@@ -97,22 +107,53 @@ class RoosterTest(unittest.TestCase):
         self.assertEqual(len(disciplines), 5)
         return
 
+    def test_find_slug(self):
+        """Find a character by slug."""
+        rooster = self._demo_rooster()
+        self.assertEqual(0, rooster.find('thorianar'))
+        return
+
+    def test_find_full_character(self):
+        """Find a character position by full charaacter info."""
+        rooster = self._demo_rooster()
+        self.assertEqual(0, rooster.find(self._thorianar()))
+        return
+
+    def test_remove_slug(self):
+        """Remove a character by slug."""
+        rooster = self._demo_rooster()
+        rooster.remove('thorianar')
+        self.assertIsNone(rooster.find('thorianar'))
+        return
+
+    def test_remove_character(self):
+        """Remove a character by character object."""
+        rooster = self._demo_rooster()
+        rooster.remove(self._thorianar())
+        self.assertIsNone(rooster.find(self._thorianar()))
+        return
+
     def _kill_db(self):
         """Destroy the database."""
-        if os.path.isfile(self.DB):
-            os.remove(self.DB)
+        if os.path.isfile(self.ROOSTER):
+            os.remove(self.ROOSTER)
         return
+
+    # pylint:disable=no-self-use
+    def _thorianar(self):
+        """Return the test character "Thorianar"."""
+        return Character('Thorianar', 80,
+                         Character.Races.charr,
+                         Character.Sex.male,
+                         Character.Professions.guardian,
+                         {Character.Disciplines.armorsmith: 500,
+                          Character.Disciplines.weaponsmith: 415},
+                         Character.Orders.durmand_priori)
 
     def _demo_rooster(self):
         """Return a rooster with a couple of characters for group testing."""
-        rooster = Rooster(self.DB)
-        thorianar = Character('Thorianar', 80,
-                              Character.Races.charr,
-                              Character.Sex.male,
-                              Character.Professions.guardian,
-                              {Character.Disciplines.armorsmith: 500,
-                               Character.Disciplines.weaponsmith: 415},
-                              Character.Orders.durmand_priori)
+        rooster = Rooster(self.ROOSTER)
+        thorianar = self._thorianar()
         buzzkill = Character('Commander Buzzkill', 80,
                              Character.Races.charr,
                              Character.Sex.male,

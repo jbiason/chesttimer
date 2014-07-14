@@ -27,13 +27,14 @@ from enum import Enum
 
 
 class Character(object):
-    """Single character information.
-    """
+
+    """Single character information."""
 
     # pylint:disable=too-few-public-methods
     class Professions(Enum):
-        """Each profession a character can be.
-        """
+
+        """Each profession a character can be."""
+
         engineer = 'Engineer'
         necromancer = 'Necromancer'
         thief = 'Thief'
@@ -45,15 +46,17 @@ class Character(object):
 
     # pylint:disable=too-few-public-methods
     class Sex(Enum):
-        """Character sex.
-        """
+
+        """Character sex."""
+
         male = 'Male'
         female = 'Female'
 
     # pylint:disable=too-few-public-methods
     class Races(Enum):
-        """Each race.
-        """
+
+        """Each race."""
+
         asura = 'Asura'
         sylvari = 'Sylvari'
         human = 'Human'
@@ -62,8 +65,9 @@ class Character(object):
 
     # pylint:disable=too-few-public-methods
     class Disciplines(Enum):
-        """Crafting disciplines.
-        """
+
+        """Crafting disciplines."""
+
         armorsmith = 'Armorsmith'
         artificer = 'Artificer'
         chef = 'Chef'
@@ -75,15 +79,16 @@ class Character(object):
 
     # pylint:disable=too-few-public-methods
     class Orders(Enum):
-        """Each of the orders the character be can aligned to.
-        """
+
+        """Each of the orders the character be can aligned to."""
+
         order_of_whispers = 'Order of Whispers'
         durmand_priori = 'Durmand Priori'
         vigil = 'Vigil'
 
     # pylint:disable=too-many-arguments
     def __init__(self, name, level, race, sex, profession, disciplines, order):
-        """Create a character
+        """Create a character.
 
         :param name: character name
         :type name: str
@@ -111,8 +116,7 @@ class Character(object):
 
     @classmethod
     def from_dict(cls, data):
-        """Convert a dictionary/JSON representation of a character to the
-        object.
+        """Convert a JSON to a character.
 
         :param data: The character data
         :type data: dict
@@ -170,14 +174,20 @@ class Character(object):
         """
         return self.name.replace(' ', '_').lower()
 
+    def __eq__(self, other):
+        """Compare this character to another character."""
+        return self.json == other.json
+
 
 class Rooster(UserList):
+
     """List of characters."""
 
     # pylint:disable=too-few-public-methods
     class Fields(Enum):
-        """Fields that can be used to order the fields.
-        """
+
+        """Fields that can be used to order the fields."""
+
         level = 'level'
         race = 'race'
         profession = 'profession'
@@ -197,8 +207,7 @@ class Rooster(UserList):
         return
 
     def load(self):
-        """Load the list of characters from the storage.
-        """
+        """Load the list of characters from the storage."""
         if not os.path.isfile(self.path):
             # first run?
             return
@@ -209,8 +218,7 @@ class Rooster(UserList):
         return
 
     def save(self):
-        """Save the current rooster list in the disk.
-        """
+        """Save the current rooster list in the disk."""
         result = []
         for char in self.data:
             result.append(char.json)
@@ -229,8 +237,7 @@ class Rooster(UserList):
         return
 
     def group_by(self, field=Fields.level):
-        """Return the list of characters in the rooster, grouped by a
-        field.
+        """Return the list of characters in the rooster, grouped by a field.
 
         :param field: The field that must be used to group characters.
         :type field: :py:class:`Fields`
@@ -304,8 +311,7 @@ class Rooster(UserList):
         return
 
     def _group_by_discipline(self):
-        """Return the rooster ordered by discipline.
-        """
+        """Return the rooster ordered by discipline."""
         grouping = {}
         for record in self.data:
             if not record.disciplines or not record.disciplines.keys():
