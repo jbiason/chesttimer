@@ -19,14 +19,13 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from flask import Flask
-from flask import url_for
-from flask import redirect
 
 from .settings import Settings
 
 # ----------------------------------------------------------------------
 # Start the app
 # ----------------------------------------------------------------------
+# pylint:disable=invalid-name
 app = Flask(__name__)
 app.config.from_object(Settings)
 app.config.from_envvar('CHESTTIMER_CONFIG', True)
@@ -48,20 +47,3 @@ RaceView.register(app, route_base='/api/races/')
 DisciplineView.register(app, route_base='/api/disciplines/')
 OrderView.register(app, route_base='/api/orders/')
 CharacterView.register(app, route_base='/api/characters/')
-
-
-# ----------------------------------------------------------------------
-#  The static routes (they use the API do to anything.)
-# ----------------------------------------------------------------------
-# @app.route('/')
-# def index():
-#i     return render_template('index.html')
-
-@app.route('/')
-def index():
-    return redirect(url_for('static', filename='base.html'))
-
-
-# @app.route('/characters/')
-# def characters():
-#     return render_template('char-list.html')
