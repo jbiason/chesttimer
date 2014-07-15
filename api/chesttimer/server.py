@@ -21,6 +21,8 @@
 from flask import Flask
 
 from .settings import Settings
+from .exceptions import ChesttimerError
+from .exceptions import ChesttimerElementNotFoundError
 
 # ----------------------------------------------------------------------
 # Start the app
@@ -47,3 +49,16 @@ RaceView.register(app, route_base='/api/races/')
 DisciplineView.register(app, route_base='/api/disciplines/')
 OrderView.register(app, route_base='/api/orders/')
 CharacterView.register(app, route_base='/api/characters/')
+
+
+@app.errorhandler(ChesttimerError)
+def exception_handler(error):
+    """Handle all internal exceptions."""
+    return error.response()
+
+
+# pylint:disable=unused-argument
+@app.errorhandler(404)
+def not_found(error):
+    """Intercept the 404 error to return a JSON instead."""
+    return exception_handler(ChesttimerElementNotFoundError())
