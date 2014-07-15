@@ -23,6 +23,7 @@ from flask import Flask
 from .settings import Settings
 from .exceptions import ChesttimerError
 from .exceptions import ChesttimerElementNotFoundError
+from .exceptions import ChestTimerMethodNotAllowedError
 
 # ----------------------------------------------------------------------
 # Start the app
@@ -62,3 +63,10 @@ def exception_handler(error):
 def not_found(error):
     """Intercept the 404 error to return a JSON instead."""
     return exception_handler(ChesttimerElementNotFoundError())
+
+
+# pylint:disable=unused-argument
+@app.errorhandler(405)
+def not_allowed(error):
+    """Intercept the 405 error to return a JSON instead."""
+    return exception_handler(ChestTimerMethodNotAllowedError())

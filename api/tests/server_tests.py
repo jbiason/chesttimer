@@ -29,7 +29,7 @@ class ServerTests(APITests):
     """Tests for the base server."""
 
     def test_not_found_json(self):
-        """Return a JSON instead of HTML error."""
+        """Check if the response for 404 is a JSON."""
         response = self.app.get('/not-found')
         self.assertEqual(response.status_code, 404)
         json_resp = json.loads(response.data)
@@ -39,4 +39,17 @@ class ServerTests(APITests):
                         'ERROR')
         self.assertTrue('code' in json_resp and json_resp['code'] ==
                         'ElementNotFound')
+        return
+
+    def test_method_not_allowed(self):
+        """Check if the response for 405 is a JSON."""
+        response = self.app.post('/api/sexes/', data={'sex': 'undefined'})
+        self.assertEqual(response.status_code, 405)
+        json_resp = json.loads(response.data)
+        self.assertIsNotNone(json_resp)     # must conver to json
+
+        self.assertTrue('status' in json_resp and json_resp['status'] ==
+                        'ERROR')
+        self.assertTrue('code' in json_resp and json_resp['code'] ==
+                        'MethodNotAllowed')
         return

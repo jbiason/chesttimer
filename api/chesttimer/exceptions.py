@@ -62,3 +62,14 @@ class ChesttimerElementNotFoundError(ChesttimerError):
         super(ChesttimerElementNotFoundError, self).__init__()
         self.status = 404
         self.message = 'Element Not Found'
+
+
+class ChestTimerMethodNotAllowedError(ChesttimerError):
+
+    """Method not allowed (405)."""
+
+    def __init__(self):
+        """Set the status to 405."""
+        super(ChestTimerMethodNotAllowedError, self).__init__()
+        self.status = 405
+        self.message = 'Method not allowed'
