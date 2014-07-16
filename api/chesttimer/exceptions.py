@@ -3,7 +3,7 @@
 
 """Exception system for Chesttimer."""
 
-# ChestTimer, an agenda creator for GW2 chests.
+# Chesttimer, an agenda creator for GW2 chests.
 # Copyright (C) 2014 Julio Biason
 #
 # This program is free software: you can redistribute it and/or modify
@@ -58,18 +58,62 @@ class ChesttimerElementNotFoundError(ChesttimerError):
     """Element not found (404)."""
 
     def __init__(self):
-        """Set the status to 404."""
+        """Set the error code and message."""
         super(ChesttimerElementNotFoundError, self).__init__()
         self.status = 404
         self.message = 'Element Not Found'
 
 
-class ChestTimerMethodNotAllowedError(ChesttimerError):
+class ChesttimerMethodNotAllowedError(ChesttimerError):
 
     """Method not allowed (405)."""
 
     def __init__(self):
-        """Set the status to 405."""
-        super(ChestTimerMethodNotAllowedError, self).__init__()
+        """Set the error code and message."""
+        super(ChesttimerMethodNotAllowedError, self).__init__()
         self.status = 405
         self.message = 'Method not allowed'
+
+
+class ChesttimerCharacterNameTooLongError(ChesttimerError):
+
+    """The name of the character is too long."""
+
+    def __init__(self):
+        """Set the error code and message."""
+        super(ChesttimerCharacterNameTooLongError, self).__init__()
+        self.status = 400
+        self.message = 'Name too long'
+
+
+class ChesttimerInvalidCharacterLevelError(ChesttimerError):
+
+    """The level for the character is invalid."""
+
+    def __init__(self):
+        """Set the error code and message."""
+        super(ChesttimerInvalidCharacterLevelError, self).__init__()
+        self.status = 400
+        self.message = 'Invalid level'
+
+
+class ChesttimerInvalidRaceError(ChesttimerError):
+
+    """The race is invalid."""
+
+    def __init__(self):
+        """Set the error code and message."""
+        super(ChesttimerInvalidRaceError, self).__init__()
+        self.status = 400
+        self.message = 'Invalid race'
+
+
+class ChesttimerInvalidSexError(ChesttimerError):
+
+    """The sex is invalid."""
+
+    def __init__(self):
+        """Set the error code and message."""
+        super(ChesttimerInvalidSexError, self).__init__()
+        self.status = 400
+        self.message = 'Invalid sex'

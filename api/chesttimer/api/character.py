@@ -30,6 +30,11 @@ from flask_cors import cross_origin
 from ..db.rooster import Character
 from ..db.rooster import Rooster
 
+from ..exceptions import ChesttimerCharacterNameTooLongError
+from ..exceptions import ChesttimerInvalidCharacterLevelError
+from ..exceptions import ChesttimerInvalidRaceError
+from ..exceptions import ChesttimerInvalidSexError
+
 
 class CharacterView(FlaskView):
 
@@ -105,9 +110,27 @@ class CharacterView(FlaskView):
         if json:
             form = json
         name = form.get('name')
-        level = int(form.get('level'))
-        race = Character.Races[form.get('race')]
-        sex = Character.Sex[form.get('sex')]
+        if len(name) > 19:
+            raise ChesttimerCharacterNameTooLongError()
+
+        try:
+            level = int(form.get('level'))
+        except ValueError:
+            raise ChesttimerInvalidCharacterLevelError()
+
+        if level < 2 or level > 80:
+            raise ChesttimerInvalidCharacterLevelError()
+
+        try:
+            race = Character.Races[form.get('race')]
+        except KeyError:
+            raise ChesttimerInvalidRaceError()
+
+        try:
+            sex = Character.Sex[form.get('sex')]
+        except KeyError:
+            raise ChesttimerInvalidSexError()
+
         profession = Character.Professions[form.get('profession')]
 
         disciplines = {}
