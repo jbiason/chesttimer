@@ -257,8 +257,37 @@ class APICharacterTest(APITests):
                    'order': None}
         response = self.app.post('/api/characters/',
                                  data=request)
-        # self.assertEqual(response.status_code, 400)
         self.assertJSONError(response, 'CharacterNameTooLong')
+        return
+
+    def test_invalid_level_type(self):
+        """Create a character with the wrong type of level."""
+        request = {'name': 'new guy',
+                   'level': 'awesome',
+                   'race': 'norn',
+                   'sex': 'male',
+                   'profession': 'engineer',
+                   'discipline1': None,
+                   'discipline2': None,
+                   'order': None}
+        response = self.app.post('/api/characters/',
+                                 data=request)
+        self.assertJSONError(response, 'InvalidCharacterLevel')
+        return
+
+    def test_invalid_level_number(self):
+        """Create a character with the wrong level, even being a number."""
+        request = {'name': 'new guy',
+                   'level': 100,
+                   'race': 'norn',
+                   'sex': 'male',
+                   'profession': 'engineer',
+                   'discipline1': None,
+                   'discipline2': None,
+                   'order': None}
+        response = self.app.post('/api/characters/',
+                                 data=request)
+        self.assertJSONError(response, 'InvalidCharacterLevel')
         return
 
     def _demo_rooster(self):
