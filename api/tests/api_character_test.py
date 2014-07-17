@@ -89,8 +89,6 @@ class APICharacterTest(APITests):
         self.assertJSONOk(response, groups=group_list)
         return
 
-    # XXX tests the other orders
-
     def test_create(self):
         """Create a new character."""
         request = {'name': 'new character',
@@ -106,7 +104,7 @@ class APICharacterTest(APITests):
         self.assertJSONOk(response)
 
         # check the rooster file.
-        rooster = Rooster(self.DB)
+        rooster = Rooster(self.ROOSTER)
         for character in rooster.data:
             if character.slug == 'new_character':
                 return
@@ -129,7 +127,7 @@ class APICharacterTest(APITests):
         self.assertJSONOk(response)
 
         # check the rooster file.
-        rooster = Rooster(self.DB)
+        rooster = Rooster(self.ROOSTER)
         for character in rooster.data:
             if character.slug == 'thorianar':
                 self.fail('old character still exists')
@@ -164,7 +162,7 @@ class APICharacterTest(APITests):
         self.assertJSONOk(response)
 
         # check the rooster file.
-        rooster = Rooster(self.DB)
+        rooster = Rooster(self.ROOSTER)
         for character in rooster.data:
             if character.slug == 'thorianar':
                 self.fail('old character still exists')
@@ -202,7 +200,7 @@ class APICharacterTest(APITests):
         self.assertJSONOk(response)
 
         # check the rooster file
-        rooster = Rooster(self.DB)
+        rooster = Rooster(self.ROOSTER)
         for character in rooster.data:
             if character.slug == 'thorianar':
                 self.fail('old character still exists')
@@ -214,7 +212,7 @@ class APICharacterTest(APITests):
         self.assertJSONOk(response)
 
         # check the rooster file
-        rooster = Rooster(self.DB)
+        rooster = Rooster(self.ROOSTER)
         for character in rooster.data:
             if character.slug == 'thorianar':
                 self.fail('old character still exists')
@@ -249,7 +247,7 @@ class APICharacterTest(APITests):
 
     def _demo_rooster(self):
         """Return a rooster with a couple of characters for group testing."""
-        rooster = Rooster(self.DB)
+        rooster = Rooster(self.ROOSTER)
         thorianar = Character('Thorianar', 80,
                               Character.Races.charr,
                               Character.Sex.male,
@@ -278,6 +276,6 @@ class APICharacterTest(APITests):
 
     def _kill_db(self):
         """Destroy the database."""
-        if os.path.isfile(self.DB):
-            os.remove(self.DB)
+        if os.path.isfile(self.ROOSTER):
+            os.remove(self.ROOSTER)
         return
