@@ -290,6 +290,21 @@ class APICharacterTest(APITests):
         self.assertJSONError(response, 'InvalidCharacterLevel')
         return
 
+    def test_invalid_race(self):
+        """Create a character with an invalid race."""
+        request = {'name': 'new guy',
+                   'level': 10,
+                   'race': 'alien',
+                   'sex': 'male',
+                   'profession': 'engineer',
+                   'discipline1': None,
+                   'discipline2': None,
+                   'order': None}
+        response = self.app.post('/api/characters/',
+                                 data=request)
+        self.assertJSONError(response, 'InvalidRace')
+        return
+
     def _demo_rooster(self):
         """Return a rooster with a couple of characters for group testing."""
         rooster = Rooster(self.ROOSTER)
