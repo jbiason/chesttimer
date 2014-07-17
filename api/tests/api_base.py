@@ -21,35 +21,41 @@
 import unittest
 import json
 
+# pylint:disable=import-error
 from chesttimer import server
+from chesttimer import exceptions
 
 
+# pylint:disable=too-many-public-methods
 class APITests(unittest.TestCase):
-    DB = './rooster.json'
+
+    """Base functions for testing the API."""
+
+    ROOSTER = './rooster.json'
 
     def setUp(self):
+        """Test set up."""
         server.app.config['DEBUG'] = True
         server.app.config['TESTING'] = True
         self.app = server.app.test_client()
-        # XXX set up the rooster filename too
-        return
-
-    def tearDown(self):
-        # XXX delete the rooster filename
         return
 
     # ------------------------------------------------------------
     # Asserts
     # ------------------------------------------------------------
+    # pylint:disable=invalid-name
     def assertJSON(self, response, expected):
-        """Assert that:
+        """Assert the JSON inside the response.
+
+        Assert that:
 
         1) The response containts a JSON response;
         2) The JSON response has all the expected fields.
 
         :param response: The test_client response
         :param expected: Expected JSON
-        :type expected: dict"""
+        :type expected: dict
+        """
         response = json.loads(response.data)
         keys = expected.keys()
         for key in expected:
@@ -72,14 +78,17 @@ class APITests(unittest.TestCase):
         return
 
     def assertStatus(self, response, expected_status):
-        """Assert that the response have the expected status"""
+        """Assert that the response have the expected status."""
         self.assertEqual(response.status_code, expected_status)
         return
 
     def assertJSONOk(self, response, **extras):
-        """Assert that the response JSON contains the "OK" status, along with
+        """Assert for an OK response.
+
+        Assert that the response JSON contains the "OK" status, along with
         its status. Any other fields that must be checked in the response
-        should be passed in **extras."""
+        should be passed in **extras.
+        """
         expected = {'status': 'OK'}
         if extras:
             expected.update(extras)
@@ -88,18 +97,20 @@ class APITests(unittest.TestCase):
         self.assertJSON(response, expected)
         return
 
-    # def assertJSONError(self, response, exception):
-    #     """Assert that the exception is being returned.
+    def assertJSONError(self, response, exception):
+        """Assert that the exception is being returned.
 
-    #     :param response: The test_client response
-    #     :param exception: Exception code, which is basically the exception
-    #     name without the 'Exception' suffix."""
-    #     # first of all, try to find the exception
-    #     full_exception_name = exception + 'Exception'
-    #     exception_cls = getattr(exceptions, full_exception_name)
-    #     self.assertStatus(response, exception_cls.status)
+        :param response: The test_client response
+        :param exception: Exception code, which is basically the exception
+        name without the 'Exception' suffix.
+        """
+        # first of all, try to find the exception
+        full_exception_name = 'Chesttimer' + exception + 'Error'
+        exception_cls = getattr(exceptions, full_exception_name)
+        exception_obj = exception_cls()
+        self.assertStatus(response, exception_obj.status)
 
-    #     expected = {'code': exception,
-    #                 'message': exception_cls.message}
-    #     self.assertJSON(response, expected)
-    #     return
+        expected = {'code': exception,
+                    'message': exception_obj.message}
+        self.assertJSON(response, expected)
+        return
