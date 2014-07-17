@@ -245,6 +245,22 @@ class APICharacterTest(APITests):
         self.assertEqual(response.status_code, 404)
         return
 
+    def test_name_too_long(self):
+        """Create a new character with a name too long."""
+        request = {'name': 'this name is too long to continue',
+                   'level': 70,
+                   'race': 'norn',
+                   'sex': 'male',
+                   'profession': 'engineer',
+                   'discipline1': None,
+                   'discipline2': None,
+                   'order': None}
+        response = self.app.post('/api/characters/',
+                                 data=request)
+        # self.assertEqual(response.status_code, 400)
+        self.assertJSONError(response, 'CharacterNameTooLong')
+        return
+
     def _demo_rooster(self):
         """Return a rooster with a couple of characters for group testing."""
         rooster = Rooster(self.ROOSTER)
